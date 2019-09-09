@@ -8,7 +8,7 @@ package main
 
 import (
 	"fmt"
-
+	"encoding/json"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	"github.com/hyperledger/fabric/protos/peer"
 )
@@ -16,24 +16,16 @@ import (
 // SimpleAsset implements a simple chaincode to manage an asset
 type SimpleAsset struct {
 }
+type Data struct {
+	Key   string `json:"key"`
+	Value  string `json:"value"`
+}
 
 // Init is called during chaincode instantiation to initialize any
 // data. Note that chaincode upgrade also calls this function to reset
 // or to migrate data.
 func (t *SimpleAsset) Init(stub shim.ChaincodeStubInterface) peer.Response {
-	// Get the args from the transaction proposal
-	args := stub.GetStringArgs()
-	if len(args) != 2 {
-		return shim.Error("Incorrect arguments. Expecting a key and a value")
-	}
 
-	// Set up any variables or assets here by calling stub.PutState()
-
-	// We store the key and the value on the ledger
-	err := stub.PutState(args[0], []byte(args[1]))
-	if err != nil {
-		return shim.Error(fmt.Sprintf("Failed to create asset: %s", args[0]))
-	}
 	return shim.Success(nil)
 }
 
@@ -71,11 +63,15 @@ func set(stub shim.ChaincodeStubInterface, args []string) (string, error) {
 		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
 	}
 
-	err := stub.PutState(args[0], []byte(args[1]))
+	// JSON  변환
+	var data=Data{Key:args[0], Value:args[1]}
+	dataAsBytes, _ = json.Marshal(data)
+
+	err := stub.PutState(args[0], dataAsBytes)
 	if err != nil {
 		return "", fmt.Errorf("Failed to set asset: %s", args[0])
 	}
-	return args[1], nil
+	return dataAsBytes, nil
 }
 
 // Get returns the value of the specified asset key
