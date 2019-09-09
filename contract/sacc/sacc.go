@@ -111,12 +111,8 @@ func getAllKeys(stub shim.ChaincodeStubInterface) (string, error) {
 		if comma == true {
 			buffer += ","
 		}
-		buffer += "{\"key\":"
-		buffer += "\""
-		buffer += res.Key
-		buffer += "\",\"Value\":\""
 		buffer += string(res.Value)
-		buffer += "\"}"
+		
 		comma = true
 	}
 	buffer += "]"
