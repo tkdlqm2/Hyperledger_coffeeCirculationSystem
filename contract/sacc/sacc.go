@@ -7,8 +7,10 @@
 package main
 
 import (
-	"fmt"
 	"encoding/json"
+	"fmt"
+	"bytes"
+
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	"github.com/hyperledger/fabric/protos/peer"
 )
@@ -18,7 +20,7 @@ type SimpleAsset struct {
 }
 type Data struct {
 	Key   string `json:"key"`
-	Value  string `json:"value"`
+	Value string `json:"value"`
 }
 
 // Init is called during chaincode instantiation to initialize any
@@ -64,14 +66,14 @@ func set(stub shim.ChaincodeStubInterface, args []string) (string, error) {
 	}
 
 	// JSON  변환
-	var data=Data{Key:args[0], Value:args[1]}
-	dataAsBytes, _ = json.Marshal(data)
+	var data = Data{Key: args[0], Value: args[1]}
+	dataAsBytes, _ := json.Marshal(data)
 
 	err := stub.PutState(args[0], dataAsBytes)
 	if err != nil {
 		return "", fmt.Errorf("Failed to set asset: %s", args[0])
 	}
-	return dataAsBytes, nil
+	return string(dataAsBytes), nil
 }
 
 // Get returns the value of the specified asset key
@@ -112,7 +114,7 @@ func getAllKeys(stub shim.ChaincodeStubInterface) (string, error) {
 			buffer += ","
 		}
 		buffer += string(res.Value)
-		
+
 		comma = true
 	}
 	buffer += "]"
