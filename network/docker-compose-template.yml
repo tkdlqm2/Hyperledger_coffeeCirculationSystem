@@ -3,25 +3,58 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-version: '2'
+version: '3'
 
 networks:
   basic:
 
 services:
-  ca.example.com:
+  ca1.example.com:
     image: hyperledger/fabric-ca
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
       - FABRIC_CA_SERVER_CA_NAME=ca.example.com
       - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org1.example.com-cert.pem
-      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/CA_PRIVATE_KEY
+      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/2519f30a50d6b6c5fb58a3a117c86c062d91abfd31c54fc0ed9b86f347245241_sk
     ports:
       - "7054:7054"
     command: sh -c 'fabric-ca-server start -b admin:adminpw'
     volumes:
       - ./crypto-config/peerOrganizations/org1.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
-    container_name: ca.example.com
+    container_name: ca1.example.com
+    networks:
+      - basic
+
+  ca2.example.com:
+    image: hyperledger/fabric-ca
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=ca.example.com
+      - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem
+      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/e9ab75cf8b40c10fcd5aedb70ab121facff94e8691d3d45136198c6c178d76d4_sk
+    ports:
+      - "8054:7054"
+    command: sh -c 'fabric-ca-server start -b admin2:adminpw2'
+    volumes:
+      - ./crypto-config/peerOrganizations/org2.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+    container_name: ca2.example.com
+    networks:
+      - basic
+
+
+  ca3.example.com:
+    image: hyperledger/fabric-ca
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=ca.example.com
+      - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org3.example.com-cert.pem
+      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/cf1baa69e565b7e696e4c22454ec71a7722a1698d18cb1853e76b8854cf1eb19_sk
+    ports:
+      - "9054:7054"
+    command: sh -c 'fabric-ca-server start -b admin3:adminpw3'
+    volumes:
+      - ./crypto-config/peerOrganizations/org3.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+    container_name: ca3.example.com
     networks:
       - basic
 
@@ -45,6 +78,8 @@ services:
         - ./crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/:/etc/hyperledger/msp/peerOrg1
     networks:
       - basic
+
+  
 
   peer0.org1.example.com:
     container_name: peer0.org1.example.com
@@ -222,7 +257,58 @@ services:
         - ./config:/etc/hyperledger/configtx
     networks:
         - basic
-    #depends_on:
-    #  - orderer.example.com
-    #  - peer0.org1.example.com
+    depends_on:
+     - orderer.example.com
+     - peer0.org1.example.com
+     
     #  - couchdb
+  cli2:
+    container_name: cli2
+    image: hyperledger/fabric-tools
+    tty: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - FABRIC_LOGGING_SPEC=info
+      - CORE_PEER_ID=cli2
+      - CORE_PEER_ADDRESS=peer0.org2.example.com:7051
+      - CORE_PEER_LOCALMSPID=Org2MSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
+      - CORE_CHAINCODE_KEEPALIVE=10
+    working_dir: /etc/hyperledger/configtx
+    command: /bin/bash
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./../contract/:/opt/gopath/src/github.com/
+        - ./crypto-config:/etc/hyperledger/crypto
+        - ./config:/etc/hyperledger/configtx
+    networks:
+        - basic
+    depends_on:
+     - orderer.example.com
+     - peer0.org2.example.com
+  cli3:
+    container_name: cli3
+    image: hyperledger/fabric-tools
+    tty: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - FABRIC_LOGGING_SPEC=info
+      - CORE_PEER_ID=cli3
+      - CORE_PEER_ADDRESS=peer0.org3.example.com:7051
+      - CORE_PEER_LOCALMSPID=Org3MSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/crypto/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
+      - CORE_CHAINCODE_KEEPALIVE=10
+    working_dir: /etc/hyperledger/configtx
+    command: /bin/bash
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./../contract/:/opt/gopath/src/github.com/
+        - ./crypto-config:/etc/hyperledger/crypto
+        - ./config:/etc/hyperledger/configtx
+    networks:
+        - basic
+    depends_on:
+     - orderer.example.com
+     - peer0.org3.example.com

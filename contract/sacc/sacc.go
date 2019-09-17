@@ -18,8 +18,16 @@ import (
 type SimpleAsset struct {
 }
 type Data struct {
-	Key   string `json:"key"`
-	Value string `json:"value"`
+	Key    string `json:"key"`
+	Value1 string `json:"value1"`
+	Value2 string `json:"value2"`
+	Value3 string `json:"value3"`
+	Value4 string `json:"value4"`
+	Value5 string `json:"value5"`
+	Value6 string `json:"value6"`
+	Value7 string `json:"value7"`
+	Value8 string `json:"value8"`
+	Value9 string `json:"value9"`
 }
 
 // Init is called during chaincode instantiation to initialize any
@@ -39,8 +47,12 @@ func (t *SimpleAsset) Invoke(stub shim.ChaincodeStubInterface) peer.Response {
 
 	var result string
 	var err error
-	if fn == "set" {
-		result, err = set(stub, args)
+	if fn == "set1" {
+		result, err = set1(stub, args)
+	} else if fn == "set2" {
+		result, err = set2(stub, args)
+	} else if fn == "set3" {
+		result, err = set3(stub, args)
 	} else if fn == "get" {
 		result, err = get(stub, args)
 	} else if fn == "getAllKeys" {
@@ -59,13 +71,13 @@ func (t *SimpleAsset) Invoke(stub shim.ChaincodeStubInterface) peer.Response {
 
 // Set stores the asset (both key and value) on the ledger. If the key exists,
 // it will override the value with the new one
-func set(stub shim.ChaincodeStubInterface, args []string) (string, error) {
-	if len(args) != 2 {
+func set1(stub shim.ChaincodeStubInterface, args []string) (string, error) {
+	if len(args) != 4 {
 		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
 	}
 
 	// JSON  변환
-	var data = Data{Key: args[0], Value: args[1]}
+	var data = Data{Key: args[0], Value1: args[1], Value2: args[2], Value3: args[3]}
 	dataAsBytes, _ := json.Marshal(data)
 
 	err := stub.PutState(args[0], dataAsBytes)
@@ -73,6 +85,45 @@ func set(stub shim.ChaincodeStubInterface, args []string) (string, error) {
 		return "", fmt.Errorf("Failed to set asset: %s", args[0])
 	}
 	return string(dataAsBytes), nil
+}
+
+func set2(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
+
+	if len(args) != 4 {
+		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
+	}
+
+	InfoAsBytes, _ := APIstub.GetState(args[0])
+	data := Data{}
+
+	json.Unmarshal(InfoAsBytes, &data)
+	data.Value4 = args[1]
+	data.Value5 = args[2]
+	data.Value6 = args[3]
+
+	InfoAsBytes, _ = json.Marshal(data)
+	APIstub.PutState(args[0], InfoAsBytes)
+
+	return string(InfoAsBytes), nil
+}
+func set3(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
+
+	if len(args) != 4 {
+		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
+	}
+
+	InfoAsBytes, _ := APIstub.GetState(args[0])
+	data := Data{}
+
+	json.Unmarshal(InfoAsBytes, &data)
+	data.Value7 = args[1]
+	data.Value8 = args[2]
+	data.Value9 = args[3]
+
+	InfoAsBytes, _ = json.Marshal(data)
+	APIstub.PutState(args[0], InfoAsBytes)
+
+	return string(InfoAsBytes), nil
 }
 
 // Get returns the value of the specified asset key

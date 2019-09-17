@@ -11,9 +11,20 @@ function replacePrivateKey() {
     echo "ca key file exchange"
     cp docker-compose-template.yml docker-compose.yml
     PRIV_KEY=$(ls crypto-config/peerOrganizations/org1.example.com/ca/ | grep _sk)
-    sed -i "s/CA_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose.yml
+    gsed -i "s/CA_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose.yml
 }
-
+function replacePrivateKey2() {
+    echo "ca key file exchange"
+    cp docker-compose-template.yml docker-compose.yml
+    PRIV_KEY=$(ls crypto-config/peerOrganizations/org2.example.com/ca/ | grep _sk)
+    gsed -i "s/CA_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose.yml
+}
+function replacePrivateKey3() {
+    echo "ca key file exchange"
+    cp docker-compose-template.yml docker-compose.yml
+    PRIV_KEY=$(ls crypto-config/peerOrganizations/org3.example.com/ca/ | grep _sk)
+    gsed -i "s/CA_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose.yml
+}
 function checkPrereqs() {
     # check config dir
     if [ ! -d "crypto-config" ]; then
@@ -34,7 +45,8 @@ docker-compose -f docker-compose.yml down
 
 replacePrivateKey
 
-docker-compose -f docker-compose.yml up -d ca.example.com orderer.example.com couchdb1 couchdb2 couchdb3 peer0.org1.example.com  peer0.org2.example.com peer0.org3.example.com cli
+
+docker-compose -f docker-compose.yml up -d ca1.example.com ca2.example.com ca3.example.com orderer.example.com couchdb1 couchdb2 couchdb3 peer0.org1.example.com  peer0.org2.example.com peer0.org3.example.com cli cli2 cli3
 docker ps -a
 
 # wait for Hyperledger Fabric to start
