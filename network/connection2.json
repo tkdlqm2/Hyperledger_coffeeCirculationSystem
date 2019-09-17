@@ -35,6 +35,12 @@
                     "chaincodeQuery": true,
                     "ledgerQuery": true,
                     "eventSource": true
+                },
+                "peer0.org4.example.com": {
+                    "endorsingPeer": true,
+                    "chaincodeQuery": true,
+                    "ledgerQuery": true,
+                    "eventSource": true
                 }
             }
         }
@@ -66,6 +72,15 @@
             "certificateAuthorities": [
                 "ca3.example.com"
             ]
+        },
+        "Org4": {
+            "mspid": "Org4MSP",
+            "peers": [
+                "peer0.org4.example.com"
+            ],
+            "certificateAuthorities": [
+                "ca4.example.com"
+            ]
         }
     },
     "orderers": {
@@ -82,6 +97,9 @@
         },
         "peer0.org3.example.com": {
             "url": "grpc://localhost:9051"
+        },
+        "peer0.org4.example.com": {
+            "url": "grpc://localhost:6051"
         }
     },
     "certificateAuthorities": {
@@ -96,6 +114,10 @@
         "ca3.example.com": {
             "url": "http://localhost:9054",
             "caName": "ca3.example.com"
+        },
+        "ca4.example.com": {
+            "url": "http://localhost:6054",
+            "caName": "ca4.example.com"
         }
     }
 }

@@ -17,7 +17,7 @@ async function main() {
     try {
 
         // Create a new CA client for interacting with the CA.
-        const caURL = ccp.certificateAuthorities['ca3.example.com'].url;
+        const caURL = ccp.certificateAuthorities['ca4.example.com'].url;
         const ca = new FabricCAServices(caURL);
 
         // Create a new file system based wallet for managing identities.
@@ -26,20 +26,20 @@ async function main() {
         console.log(`Wallet path: ${walletPath}`);
 
         // Check to see if we've already enrolled the admin user.
-        const adminExists = await wallet.exists('admin3');
+        const adminExists = await wallet.exists('admin4');
         if (adminExists) {
             console.log('An identity for the admin user "admin" already exists in the wallet');
             return;
         }
 
         // Enroll the admin user, and import the new identity into the wallet.
-        const enrollment = await ca.enroll({ enrollmentID: 'admin3', enrollmentSecret: 'adminpw3' });
-        const identity = X509WalletMixin.createIdentity('Org3MSP', enrollment.certificate, enrollment.key.toBytes());
-        wallet.import('admin3', identity);
-        console.log('Successfully enrolled admin user "admin" and imported it into the wallet');
+        const enrollment = await ca.enroll({ enrollmentID: 'admin4', enrollmentSecret: 'adminpw4' });
+        const identity = X509WalletMixin.createIdentity('Org4MSP', enrollment.certificate, enrollment.key.toBytes());
+        wallet.import('admin4', identity);
+        console.log('Successfully enrolled admin user "admin4" and imported it into the wallet');
 
     } catch (error) {
-        console.error(`Failed to enroll admin user "admin": ${error}`);
+        console.error(`Failed to enroll admin user "admin4": ${error}`);
         process.exit(1);
     }
 }

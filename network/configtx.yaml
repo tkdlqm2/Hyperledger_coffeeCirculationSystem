@@ -58,7 +58,15 @@ Organizations:
         MSPDir: crypto-config/peerOrganizations/org3.example.com/msp
         AnchorPeers:
             - Host: peer0.org3.example.com
-              Port: 9051             
+              Port: 9051
+              
+    - &Org4
+        Name: Org4MSP
+        ID: Org4MSP
+        MSPDir: crypto-config/peerOrganizations/org4.example.com/msp
+        AnchorPeers:
+            - Host: peer0.org4.example.com
+              Port: 6051          
 
 ################################################################################
 #
@@ -183,7 +191,7 @@ Channel: &ChannelDefaults
 ################################################################################
 Profiles:
 
-    ThreeOrgOrdererGenesis:
+    FourOrgOrdererGenesis:
         Orderer:
             <<: *OrdererDefaults
             Organizations:
@@ -197,7 +205,8 @@ Profiles:
                     - *Org1
                     - *Org2
                     - *Org3
-    ThreeOrgChannel:
+                    - *Org4
+    FourOrgChannel:
         Consortium: SampleConsortium
         <<: *ChannelDefaults
         Application:
@@ -206,6 +215,7 @@ Profiles:
                 - *Org1
                 - *Org2
                 - *Org3
+                - *Org4
             Capabilities:
                 <<: *ApplicationCapabilities
 
