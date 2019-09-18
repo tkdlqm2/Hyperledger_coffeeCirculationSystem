@@ -121,12 +121,19 @@ app.get('/api/createkey', function (req, res) {
     });
 });
 // Create car handle
+
+// Value19 string `json:"value19"` // 날짜 등록
+// 	Value20 string `json:"value20"` // 온도
+// 	Value21 string `json:"value21"` // 습도
+
+// 	Value22 string `json:"value22"` // 날짜 등록
+// 	Value23 string `json:"value23"` // 상품 출발 true or false
 app.post('/api/createkey/', async function (req, res) {
     try {
         var key = req.body.key;
-        var value4 = req.body.value4;
-        var value5 = req.body.value5;
-        var value6 = req.body.value6;
+        var value19 = req.body.value19;
+        var value20 = req.body.value20;
+        var value21 = req.body.value21;
 
 
         // Create a new file system based wallet for managing identities.
@@ -155,7 +162,68 @@ app.post('/api/createkey/', async function (req, res) {
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
         //        await contract.submitTransaction('createCar', 'CAR11', 'Hnda', 'Aord', 'Bla', 'Tom');
-        await contract.submitTransaction('set2', key, value4, value5, value6);
+        await contract.submitTransaction('set2', key, value19, value20, value21);
+        console.log('정보 등록에 성공 했습니다.');
+
+        // Disconnect from the gateway.
+        await gateway.disconnect();
+
+        res.status(200).json({ response: 'Transaction has been submitted' });
+
+    } catch (error) {
+        console.error(`Failed to submit transaction: ${error}`);
+        res.status(400).json(error);
+    }
+
+});
+
+app.get('/api/createkey2', function (req, res) {
+    fs.readFile('./en_info_data2.html', function (error, data) {
+        res.send(data.toString());
+    });
+});
+// Create car handle
+
+// Value19 string `json:"value19"` // 날짜 등록
+// 	Value20 string `json:"value20"` // 온도
+// 	Value21 string `json:"value21"` // 습도
+
+// 	Value22 string `json:"value22"` // 날짜 등록
+// 	Value23 string `json:"value23"` // 상품 출발 true or false
+app.post('/api/createkey2/', async function (req, res) {
+    try {
+        var key = req.body.key;
+        var value22 = req.body.value22;
+        var value23 = req.body.value23;
+
+
+        // Create a new file system based wallet for managing identities.
+        const walletPath = path.join(process.cwd(), 'wallet');
+        const wallet = new FileSystemWallet(walletPath);
+        console.log(`Wallet path: ${walletPath}`);
+
+        // Check to see if we've already enrolled the user.
+        const userExists = await wallet.exists('admin2');
+        if (!userExists) {
+            console.log('An identity for the user "user1" does not exist in the wallet');
+            console.log('Run the registerUser.js application before retrying');
+            return;
+        }
+        // Create a new gateway for connecting to our peer node.
+        const gateway = new Gateway();
+        await gateway.connect(ccp, { wallet, identity: 'admin2', discovery: { enabled: false } });
+
+        // Get the network (channel) our contract is deployed to.
+        const network = await gateway.getNetwork('mychannel');
+
+        // Get the contract from the network.
+        const contract = network.getContract('sacc');
+
+        // Submit the specified transaction.
+        // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
+        // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
+        //        await contract.submitTransaction('createCar', 'CAR11', 'Hnda', 'Aord', 'Bla', 'Tom');
+        await contract.submitTransaction('set_time2', key, value22, value23);
         console.log('정보 등록에 성공 했습니다.');
 
         // Disconnect from the gateway.
