@@ -17,6 +17,7 @@ import (
 // SimpleAsset implements a simple chaincode to manage an asset
 type SimpleAsset struct {
 }
+
 type Data struct {
 	Key     string `json:"key"`     // 상품 ID
 	Value11 string `json:"value11"` // 날짜 등록
@@ -26,47 +27,29 @@ type Data struct {
 	Value15 string `json:"value15"` // 수량
 	Value16 string `json:"value16"` // 생두 등급
 
-	Value17 string `json:"value17"` // 날짜 등록
-	Value18 string `json:"value18"` // 상품보관 true or false
-
+	Value177 string `json:"value17"` // 날짜 등록
+	// 보관할 주소 추가.
 	//////////////////////////////////////////////////////////////////////////////// 수입업자
 	Value19 string `json:"value19"` // 날짜 등록
 	Value20 string `json:"value20"` // 온도
 	Value21 string `json:"value21"` // 습도
 
-	Value22 string `json:"value22"` // 날짜 등록
-	Value23 string `json:"value23"` // 상품 출발 true or false
-
+	Value222 string `json:"value22"` // 날짜 등록
+	// 출발할 주소 추가 ex) 땡떙 커피 1호점, 2호점 등
 	//////////////////////////////////////////////////////////////////////////////// 창고관리자
-	Value24 string `json:"value24"` // 날짜 등록
-	Value25 string `json:"value25"` // 상품 도착 true or false
-
-	Value26 string `json:"value26"` // 날짜 등록
-	Value27 string `json:"value27"` // (로스팅)온도
-	Value28 string `json:"value28"` // (로스팅)시간
-	Value29 string `json:"value29"` // (로스팅)로스팅 방법
-	Value30 string `json:"value30"` // (로스팅)로스팅 1단계
-	Value31 string `json:"value31"` // (로스팅)로스팅 2단계
-	Value32 string `json:"value32"` // (로스팅)로스팅 3단계
-	Value33 string `json:"value33"` // (로스팅)로스팅 4단계
-	Value34 string `json:"value34"` // (로스팅)로스팅 5단계
-	Value35 string `json:"value35"` // (로스팅)로스팅 6단계
-	Value36 string `json:"value36"` // (로스팅)로스팅 7단계
-	Value37 string `json:"value37"` // (로스팅)로스팅 8단계
-
-	Value38 string `json:"value38"` // 상품 출발 날짜 등록
-	Value39 string `json:"value39"` // 상품 출발 true or false
-
+	Value23 string `json:"value24"` // 날짜 등록
+	Value24 string `json:"value28"` // (로스팅)시간
+	Value25 string `json:"value29"` // (로스팅)로스팅 방법
+	Value26 string `json:"value38"` // 상품 출발 날짜 등록
 	//////////////////////////////////////////////////////////////////////////////// 카페 관리자
 
-	Value40 string `json:"value40"` // 날짜 등록 (정기배송센터)
-	Value41 string `json:"value41"` // 상품 도착 true or false
+	Value27 string `json:"value40"` // 날짜 등록 (정기배송센터)
+	Value28 string `json:"value42"` // 날짜 등록 (정기배송센터 상품 패키징.)
+	Value29 string `json:"value44"` // 날짜 등록 (정기배송센터)
 
-	Value42 string `json:"value42"` // 날짜 등록 (정기배송센터 상품 패키징.)
-	Value43 string `json:"value43"` // 상품 패키징 true or false
-
-	Value44 string `json:"value44"` // 날짜 등록 (정기배송센터)
-	Value45 string `json:"value45"` // 상품 출발 true or false
+	Value100 string `json:"destination1"` // 날짜 등록 (정기배송센터)
+	Value101 string `json:"destination2"` // 날짜 등록 (정기배송센터)
+	Value102 string `json:"destination3"` // 날짜 등록 (정기배송센터)
 }
 
 // Init is called during chaincode instantiation to initialize any
@@ -149,8 +132,8 @@ func set_time1(APIstub shim.ChaincodeStubInterface, args []string) (string, erro
 	data := Data{}
 
 	json.Unmarshal(InfoAsBytes, &data)
-	data.Value17 = args[1]
-	data.Value18 = args[2]
+	data.Value177 = args[1]
+	data.Value100 = args[2]
 
 	InfoAsBytes, _ = json.Marshal(data)
 	APIstub.PutState(args[0], InfoAsBytes)
@@ -188,8 +171,8 @@ func set_time2(APIstub shim.ChaincodeStubInterface, args []string) (string, erro
 	data := Data{}
 
 	json.Unmarshal(InfoAsBytes, &data)
-	data.Value22 = args[1]
-	data.Value23 = args[2]
+	data.Value222 = args[1]
+	data.Value101 = args[2]
 
 	InfoAsBytes, _ = json.Marshal(data)
 	APIstub.PutState(args[0], InfoAsBytes)
@@ -201,7 +184,7 @@ func set_time2(APIstub shim.ChaincodeStubInterface, args []string) (string, erro
 
 func set3(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 
-	if len(args) != 13 {
+	if len(args) != 3 {
 		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
 	}
 
@@ -209,18 +192,8 @@ func set3(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 	data := Data{}
 
 	json.Unmarshal(InfoAsBytes, &data)
-	data.Value26 = args[1]
-	data.Value27 = args[2]
-	data.Value28 = args[3]
-	data.Value29 = args[4]
-	data.Value30 = args[5]
-	data.Value31 = args[6]
-	data.Value32 = args[7]
-	data.Value33 = args[8]
-	data.Value34 = args[9]
-	data.Value35 = args[10]
-	data.Value36 = args[11]
-	data.Value37 = args[12]
+	data.Value28 = args[1]
+	data.Value29 = args[2]
 
 	InfoAsBytes, _ = json.Marshal(data)
 	APIstub.PutState(args[0], InfoAsBytes)
@@ -238,9 +211,8 @@ func set_time3(APIstub shim.ChaincodeStubInterface, args []string) (string, erro
 	data := Data{}
 
 	json.Unmarshal(InfoAsBytes, &data)
-	data.Value38 = args[1]
-	data.Value39 = args[2]
-
+	data.Value26 = args[1]
+	data.Value102 = args[2]
 	InfoAsBytes, _ = json.Marshal(data)
 	APIstub.PutState(args[0], InfoAsBytes)
 
@@ -249,7 +221,7 @@ func set_time3(APIstub shim.ChaincodeStubInterface, args []string) (string, erro
 
 func set_arr_time(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 
-	if len(args) != 3 {
+	if len(args) != 2 {
 		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
 	}
 
@@ -257,8 +229,7 @@ func set_arr_time(APIstub shim.ChaincodeStubInterface, args []string) (string, e
 	data := Data{}
 
 	json.Unmarshal(InfoAsBytes, &data)
-	data.Value24 = args[1]
-	data.Value25 = args[2]
+	data.Value28 = args[1]
 
 	InfoAsBytes, _ = json.Marshal(data)
 	APIstub.PutState(args[0], InfoAsBytes)
@@ -268,7 +239,7 @@ func set_arr_time(APIstub shim.ChaincodeStubInterface, args []string) (string, e
 
 func set4(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 
-	if len(args) != 3 {
+	if len(args) != 2 {
 		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
 	}
 
@@ -276,8 +247,7 @@ func set4(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 	data := Data{}
 
 	json.Unmarshal(InfoAsBytes, &data)
-	data.Value40 = args[1]
-	data.Value41 = args[2]
+	data.Value27 = args[1]
 
 	InfoAsBytes, _ = json.Marshal(data)
 	APIstub.PutState(args[0], InfoAsBytes)
@@ -286,7 +256,7 @@ func set4(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 }
 func set_time4(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 
-	if len(args) != 3 {
+	if len(args) != 2 {
 		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
 	}
 
@@ -294,8 +264,7 @@ func set_time4(APIstub shim.ChaincodeStubInterface, args []string) (string, erro
 	data := Data{}
 
 	json.Unmarshal(InfoAsBytes, &data)
-	data.Value42 = args[1]
-	data.Value43 = args[2]
+	data.Value28 = args[1]
 
 	InfoAsBytes, _ = json.Marshal(data)
 	APIstub.PutState(args[0], InfoAsBytes)
@@ -305,7 +274,7 @@ func set_time4(APIstub shim.ChaincodeStubInterface, args []string) (string, erro
 
 func set_time5(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 
-	if len(args) != 3 {
+	if len(args) != 2 {
 		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
 	}
 
@@ -313,8 +282,7 @@ func set_time5(APIstub shim.ChaincodeStubInterface, args []string) (string, erro
 	data := Data{}
 
 	json.Unmarshal(InfoAsBytes, &data)
-	data.Value44 = args[1]
-	data.Value45 = args[2]
+	data.Value29 = args[1]
 
 	InfoAsBytes, _ = json.Marshal(data)
 	APIstub.PutState(args[0], InfoAsBytes)
@@ -341,7 +309,7 @@ func get(stub shim.ChaincodeStubInterface, args []string) (string, error) {
 // Get returns the value of the specified asset key
 func getAllKeys(stub shim.ChaincodeStubInterface) (string, error) {
 
-	iter, err := stub.GetStateByRange("a", "z")
+	iter, err := stub.GetStateByRange("1", "9999")
 	if err != nil {
 		return "", fmt.Errorf("Failed to get all keys with error: %s", err)
 	}

@@ -1,11 +1,11 @@
 #chaincode insall
-docker exec cli peer chaincode install -n sacc -v 1.3 -p github.com/sacc
-docker exec cli2 peer chaincode install -n sacc -v 1.3 -p github.com/sacc
-docker exec cli3 peer chaincode install -n sacc -v 1.3 -p github.com/sacc
-docker exec cli4 peer chaincode install -n sacc -v 1.3 -p github.com/sacc
+docker exec cli peer chaincode install -n sacc -v 1.6 -p github.com/sacc
+docker exec cli2 peer chaincode install -n sacc -v 1.6 -p github.com/sacc
+docker exec cli3 peer chaincode install -n sacc -v 1.6 -p github.com/sacc
+docker exec cli4 peer chaincode install -n sacc -v 1.6 -p github.com/sacc
 
 #chaincode instatiate
-docker exec cli peer chaincode instantiate -n sacc -v 1.3 -C mychannel -c '{"Args":["a","100"]}' -P 'OR ("Org2MSP.member", "Org1MSP.member","Org3MSP.member","Org4MSP.member")'
+docker exec cli peer chaincode instantiate -n sacc -v 1.6 -C mychannel -c '{"Args":["0","100"]}' -P 'OR ("Org2MSP.member", "Org1MSP.member","Org3MSP.member","Org4MSP.member")'
 sleep 10
 # docker exec cli2 peer chaincode instantiate -n sacc -v 1.2 -C mychannel -c '{"Args":["a","100"]}' -P 'OR ("Org2MSP.member", "Org1MSP.member","Org3MSP.member")'
 # docker exec cli3 peer chaincode instantiate -n sacc -v 1.2 -C mychannel -c '{"Args":["a","100"]}' -P 'OR ("Org2MSP.member", "Org1MSP.member","Org3MSP.member")'

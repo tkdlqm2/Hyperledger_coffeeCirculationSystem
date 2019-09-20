@@ -124,18 +124,10 @@ app.get('/api/createkey', function (req, res) {
 app.post('/api/createkey/', async function (req, res) {
     try {
         var key = req.body.key;
-        var value26 = req.body.value26;
-        var value27 = req.body.value27;
+
         var value28 = req.body.value28;
         var value29 = req.body.value29;
-        var value30 = req.body.value30;
-        var value31 = req.body.value31;
-        var value32 = req.body.value32;
-        var value33 = req.body.value33;
-        var value34 = req.body.value34;
-        var value35 = req.body.value35;
-        var value36 = req.body.value36;
-        var value37 = req.body.value37;
+
 
 
         // Create a new file system based wallet for managing identities.
@@ -164,7 +156,7 @@ app.post('/api/createkey/', async function (req, res) {
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
         //        await contract.submitTransaction('createCar', 'CAR11', 'Hnda', 'Aord', 'Bla', 'Tom');
-        await contract.submitTransaction('set3', key, value26, value27, value28, value29, value30, value31, value32, value33, value34, value35, value36, value37);
+        await contract.submitTransaction('set3', key, value28, value29);
         console.log('정보 등록에 성공 했습니다.');
 
         // Disconnect from the gateway.
@@ -189,7 +181,6 @@ app.post('/api/createkey3/', async function (req, res) {
     try {
         var key = req.body.key;
         var value24 = req.body.value24;
-        var value25 = req.body.value25;
 
         // Create a new file system based wallet for managing identities.
         const walletPath = path.join(process.cwd(), 'wallet');
@@ -217,7 +208,7 @@ app.post('/api/createkey3/', async function (req, res) {
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
         //        await contract.submitTransaction('createCar', 'CAR11', 'Hnda', 'Aord', 'Bla', 'Tom');
-        await contract.submitTransaction('set_arr_time', key, value24, value25);
+        await contract.submitTransaction('set_arr_time', key, value24);
         console.log('정보 등록에 성공 했습니다.');
 
         // Disconnect from the gateway.
@@ -242,7 +233,7 @@ app.post('/api/createkey2/', async function (req, res) {
     try {
         var key = req.body.key;
         var value38 = req.body.value38;
-        var value39 = req.body.value39;
+        var destination3 = req.body.destination3;
 
         // Create a new file system based wallet for managing identities.
         const walletPath = path.join(process.cwd(), 'wallet');
@@ -270,7 +261,7 @@ app.post('/api/createkey2/', async function (req, res) {
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
         //        await contract.submitTransaction('createCar', 'CAR11', 'Hnda', 'Aord', 'Bla', 'Tom');
-        await contract.submitTransaction('set_time3', key, value38, value39);
+        await contract.submitTransaction('set_time3', key, value38, destination3);
         console.log('정보 등록에 성공 했습니다.');
 
         // Disconnect from the gateway.

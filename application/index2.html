@@ -7,16 +7,14 @@
 
     <script>
         $(document).ready(function () {
-            $("button").click(function () {
-                $.get("../../api/query", function (data, status) {
+            $.get("../../api/query", function (data, status) {
 
-                    $("#div2").empty();
+                $("#div2").empty();
 
-                    for (var i = 0; i < data.length; i++) {
-                        $("#div2").append(JSON.stringify(data[i]) + "<br>");
-                    }
+                for (var i = 0; i < data.length; i++) {
+                    $("#div2").append(JSON.stringify(data[i]) + "<br>");
+                }
 
-                });
             });
         });
     </script>
@@ -40,10 +38,9 @@
     <br>
     <br>
     <br>
-    <button>Query All Keys</button>
 
     <div id="div1">
-        <h2>Sacc Query Result</h2>
+        <h2>원두</h2>
     </div>
     <div id="div2"></div>
 

@@ -120,14 +120,7 @@ app.get('/api/createkey', function (req, res) {
         res.send(data.toString());
     });
 });
-// Create car handle
 
-// Value19 string `json:"value19"` // 날짜 등록
-// 	Value20 string `json:"value20"` // 온도
-// 	Value21 string `json:"value21"` // 습도
-
-// 	Value22 string `json:"value22"` // 날짜 등록
-// 	Value23 string `json:"value23"` // 상품 출발 true or false
 app.post('/api/createkey/', async function (req, res) {
     try {
         var key = req.body.key;
@@ -194,8 +187,7 @@ app.post('/api/createkey2/', async function (req, res) {
     try {
         var key = req.body.key;
         var value22 = req.body.value22;
-        var value23 = req.body.value23;
-
+        var destination2 = req.body.destination2;
 
         // Create a new file system based wallet for managing identities.
         const walletPath = path.join(process.cwd(), 'wallet');
@@ -223,7 +215,7 @@ app.post('/api/createkey2/', async function (req, res) {
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
         //        await contract.submitTransaction('createCar', 'CAR11', 'Hnda', 'Aord', 'Bla', 'Tom');
-        await contract.submitTransaction('set_time2', key, value22, value23);
+        await contract.submitTransaction('set_time2', key, value22, destination2);
         console.log('정보 등록에 성공 했습니다.');
 
         // Disconnect from the gateway.

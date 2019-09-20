@@ -125,7 +125,6 @@ app.post('/api/createkey2/', async function (req, res) {
     try {
         var key = req.body.key;
         var value40 = req.body.value40;
-        var value41 = req.body.value41;
 
 
         // Create a new file system based wallet for managing identities.
@@ -154,7 +153,7 @@ app.post('/api/createkey2/', async function (req, res) {
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
         //        await contract.submitTransaction('createCar', 'CAR11', 'Hnda', 'Aord', 'Bla', 'Tom');
-        await contract.submitTransaction('set4', key, value40, value41);
+        await contract.submitTransaction('set4', key, value40);
         console.log('정보 등록에 성공 했습니다.');
 
         // Disconnect from the gateway.
@@ -179,7 +178,6 @@ app.post('/api/createkey3/', async function (req, res) {
     try {
         var key = req.body.key;
         var value42 = req.body.value42;
-        var value43 = req.body.value43;
 
         // Create a new file system based wallet for managing identities.
         const walletPath = path.join(process.cwd(), 'wallet');
@@ -207,7 +205,7 @@ app.post('/api/createkey3/', async function (req, res) {
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
         //        await contract.submitTransaction('createCar', 'CAR11', 'Hnda', 'Aord', 'Bla', 'Tom');
-        await contract.submitTransaction('set_time4', key, value42, value43);
+        await contract.submitTransaction('set_time4', key, value42);
         console.log('정보 등록에 성공 했습니다.');
 
         // Disconnect from the gateway.
@@ -233,7 +231,6 @@ app.post('/api/createkey4/', async function (req, res) {
     try {
         var key = req.body.key;
         var value44 = req.body.value44;
-        var value45 = req.body.value45;
 
         // Create a new file system based wallet for managing identities.
         const walletPath = path.join(process.cwd(), 'wallet');
@@ -261,7 +258,7 @@ app.post('/api/createkey4/', async function (req, res) {
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
         //        await contract.submitTransaction('createCar', 'CAR11', 'Hnda', 'Aord', 'Bla', 'Tom');
-        await contract.submitTransaction('set_time5', key, value44, value45);
+        await contract.submitTransaction('set_time5', key, value44);
         console.log('정보 등록에 성공 했습니다.');
 
         // Disconnect from the gateway.

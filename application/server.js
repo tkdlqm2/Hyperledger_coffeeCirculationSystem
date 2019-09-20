@@ -15,6 +15,21 @@ const ccpPath = path.resolve(__dirname, '..', 'network', 'connection2.json');
 const ccpJSON = fs.readFileSync(ccpPath, 'utf8');
 const ccp = JSON.parse(ccpJSON);
 
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+// var channel_event_hub = channel.newChannelEventHub('peer0.org1.example.com');
+// let data = fs.readFileSync(path.join(__dirname, '..', 'network', 'crypto-config', 'peerOrganizations', 'org1.example.com', 'org1.example.com-cert.pem'));
+// let peer = client.newPeer(
+//     'grpcs://localhost:7051',
+//     {
+//         pem: Buffer.from(data).toString(),
+//         'ssl-target-name-override': 'peer0.org1.example.com'
+//     }
+// );
+// let channel_event_hub = channel.newChannelEventHub(peer);
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Index page
@@ -32,6 +47,7 @@ app.get('/api/query', async function (req, res) {
     // Create a new file system based wallet for managing identities.
     const walletPath = path.join(process.cwd(), 'wallet');
     const wallet = new FileSystemWallet(walletPath);
+
     console.log(`Wallet path: ${walletPath}`);
 
     // Check to see if we've already enrolled the user.
@@ -51,6 +67,29 @@ app.get('/api/query', async function (req, res) {
 
     // Get the contract from the network.
     const contract = network.getContract('sacc');
+    await contract.addContractListener('my-contract-listener', 'TradeEvent', (err, event, blockNumber, transactionId, status) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+
+        //convert event to something we can parse 
+        event = event.payload.toString();
+        event = JSON.parse(event)
+
+        //where we output the TradeEvent
+        console.log('************************ Start Trade Event *******************************************************');
+        console.log(`type: ${event.type}`);
+        console.log(`ownerId: ${event.ownerId}`);
+        console.log(`id: ${event.id}`);
+        console.log(`description: ${event.description}`);
+        console.log(`status: ${event.status}`);
+        console.log(`amount: ${event.amount}`);
+        console.log(`buyerId: ${event.buyerId}`);
+        console.log(`Block Number: ${blockNumber} Transaction ID: ${transactionId} Status: ${status}`);
+        console.log('************************ End Trade Event ************************************');
+    });
+
 
     // Evaluate the specified transaction.
     // queryCar transaction - requires 1 argument, ex: ('queryCar', 'CAR4')
@@ -98,6 +137,7 @@ app.get('/api/querykey/:id', async function (req, res) {
 
         // Get the contract from the network.
         const contract = network.getContract('sacc');
+
 
         // Evaluate the specified transaction.
         // queryCar transaction - requires 1 argument, ex: ('queryCar', 'CAR4')
@@ -154,6 +194,7 @@ app.post('/api/createkey/', async function (req, res) {
         // Get the contract from the network.
         const contract = network.getContract('sacc');
 
+
         // Submit the specified transaction.
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
@@ -182,7 +223,7 @@ app.post('/api/createkey2/', async function (req, res) {
     try {
         var key = req.body.key;
         var value17 = req.body.value17;
-        var value18 = req.body.value18;
+        var destination1 = req.body.destination1;
 
         // Create a new file system based wallet for managing identities.
         const walletPath = path.join(process.cwd(), 'wallet');
@@ -206,11 +247,12 @@ app.post('/api/createkey2/', async function (req, res) {
         // Get the contract from the network.
         const contract = network.getContract('sacc');
 
+
         // Submit the specified transaction.
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
         //        await contract.submitTransaction('createCar', 'CAR11', 'Hnda', 'Aord', 'Bla', 'Tom');
-        await contract.submitTransaction('set_time1', key, value17, value18);
+        await contract.submitTransaction('set_time1', key, value17, destination1);
         console.log('정보 등록에 성공 했습니다.');
 
         // Disconnect from the gateway.
