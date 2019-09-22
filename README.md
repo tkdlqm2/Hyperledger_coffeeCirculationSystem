@@ -76,4 +76,4 @@ else you are packing managerm run "node server4.js & node enrollment4.js" <br>
 After that, you have all connecting authority about each Organs.<br>
 
 - Contact<br>
-For questions or recommendations don't hesitate to contact emb6@hs-offenburg.de
+For questions or recommendations don't hesitate to contact tkdlqm2@naver.com
