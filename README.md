@@ -2,9 +2,7 @@
 하이퍼레져를 활용한 coffee 유통 관리 시스템
 
 # Introduction
-원두의 유통과정에는 이해당사자가 유통업체, 배송업체 그리고 카페로 구성이 되었다. 이러한 이해당사자들 사이에서 유통 과정에서 발생하는 불필요한 비용이 발생을 한다. 
-이러한 문제점을 Hyperledger Fabricd을 활용하여 해결을 하는 프로젝트이다. 더 나아가 투명하게 관리된 원두의 이력을 바탕으로 정기 배송을 지원하는 부가 서비스를 
-추가를 할 것이다. 서버쪽 개발은 NodeJS를 활용을 하였고, 네트워크는 docker-compose를 활용하여 단일 노드에서 구성을 하였고, 마지막으로 체인코드는 GoLang으로 작성을 하였다.
+The configuration is complete with distributors, shippers and cafes. Deploy amongst stakeholders more. Hyperledger Fabric. Better transparency can be managed. Server side development is for NodeJS, network can choose docker-compose.
 
 <br><br>
 
