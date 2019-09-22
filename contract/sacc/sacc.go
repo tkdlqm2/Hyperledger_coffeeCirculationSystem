@@ -19,13 +19,14 @@ type SimpleAsset struct {
 }
 
 type Data struct {
-	Key     string `json:"key"`     // 상품 ID
-	Value11 string `json:"value11"` // 날짜 등록
-	Value12 string `json:"value12"` // 품종
-	Value13 string `json:"value13"` // 산지
-	Value14 string `json:"value14"` // 수확일
-	Value15 string `json:"value15"` // 수량
-	Value16 string `json:"value16"` // 생두 등급
+	Key     string `json:"key"`      // 상품 ID
+	Value11 string `json:"value11"`  // 날짜 등록
+	Value12 string `json:"value12"`  // 품종
+	Value13 string `json:"value13"`  // 산지
+	Value14 string `json:"value14"`  // 수확일
+	Value15 string `json:"value15"`  // 수량
+	Value16 string `json:"value16"`  // 생두 등급
+	Value18 string `json:"latitute"` // 생두 등급
 
 	Value177 string `json:"value17"` // 날짜 등록
 	// 보관할 주소 추가.
@@ -50,6 +51,14 @@ type Data struct {
 	Value100 string `json:"destination1"` // 날짜 등록 (정기배송센터)
 	Value101 string `json:"destination2"` // 날짜 등록 (정기배송센터)
 	Value102 string `json:"destination3"` // 날짜 등록 (정기배송센터)
+	Value201 string `json:"fragrance"`    //ㅇ
+	Value202 string `json:"balance"`      //ㅇ
+	Value203 string `json:"bitterness"`   // ㅇ
+	Value204 string `json:"sweetess"`     // ㅇ
+	Value205 string `json:"aftertaste"`   // ㅇ
+	Value206 string `json:"body"`         // ㅇ
+	Value207 string `json:"acidity"`      // ㅇ
+	Value208 string `json:"aroma"`        // ㅇ
 }
 
 // Init is called during chaincode instantiation to initialize any
@@ -108,12 +117,12 @@ func (t *SimpleAsset) Invoke(stub shim.ChaincodeStubInterface) peer.Response {
 // Set stores the asset (both key and value) on the ledger. If the key exists,
 // it will override the value with the new one
 func set1(stub shim.ChaincodeStubInterface, args []string) (string, error) {
-	if len(args) != 7 {
+	if len(args) != 8 {
 		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
 	}
 
 	// JSON  변환
-	var data = Data{Key: args[0], Value11: args[1], Value12: args[2], Value13: args[3], Value14: args[4], Value15: args[5], Value16: args[6]}
+	var data = Data{Key: args[0], Value11: args[1], Value12: args[2], Value13: args[3], Value14: args[4], Value15: args[5], Value16: args[6], Value18: args[7]}
 	dataAsBytes, _ := json.Marshal(data)
 
 	err := stub.PutState(args[0], dataAsBytes)
@@ -184,7 +193,7 @@ func set_time2(APIstub shim.ChaincodeStubInterface, args []string) (string, erro
 
 func set3(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 
-	if len(args) != 3 {
+	if len(args) != 11 {
 		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
 	}
 
@@ -194,6 +203,15 @@ func set3(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 	json.Unmarshal(InfoAsBytes, &data)
 	data.Value28 = args[1]
 	data.Value29 = args[2]
+
+	data.Value201 = args[1]
+	data.Value202 = args[2]
+	data.Value203 = args[3]
+	data.Value204 = args[4]
+	data.Value205 = args[5]
+	data.Value206 = args[6]
+	data.Value207 = args[7]
+	data.Value208 = args[8]
 
 	InfoAsBytes, _ = json.Marshal(data)
 	APIstub.PutState(args[0], InfoAsBytes)

@@ -128,7 +128,14 @@ app.post('/api/createkey/', async function (req, res) {
         var value28 = req.body.value28;
         var value29 = req.body.value29;
 
-
+        var fragrance = req.body.fragrance;
+        var balance = req.body.balance;
+        var bitterness = req.body.bitterness;
+        var sweetess = req.body.sweetess;
+        var aftertaste = req.body.aftertaste;
+        var body = req.body.body;
+        var acidity = req.body.acidity;
+        var aroma = req.body.aroma;
 
         // Create a new file system based wallet for managing identities.
         const walletPath = path.join(process.cwd(), 'wallet');
@@ -156,7 +163,7 @@ app.post('/api/createkey/', async function (req, res) {
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
         //        await contract.submitTransaction('createCar', 'CAR11', 'Hnda', 'Aord', 'Bla', 'Tom');
-        await contract.submitTransaction('set3', key, value28, value29);
+        await contract.submitTransaction('set3', key, value28, value29, fragrance, balance, bitterness, sweetess, aftertaste, body, acidity, aroma);
         console.log('정보 등록에 성공 했습니다.');
 
         // Disconnect from the gateway.

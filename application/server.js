@@ -67,6 +67,12 @@ app.get('/api/query', async function (req, res) {
 
     // Get the contract from the network.
     const contract = network.getContract('sacc');
+    console.log("---------------------------------------------------------------------------------------------");
+    console.log("---------------------------------------------------------------------------------------------");
+    console.log("---------------------------------------------------------------------------------------------");
+    console.log("---------------------------------------------------------------------------------------------");
+    console.log("---------------------------------------------------------------------------------------------");
+
     await contract.addContractListener('my-contract-listener', 'TradeEvent', (err, event, blockNumber, transactionId, status) => {
         if (err) {
             console.error(err);
@@ -88,7 +94,7 @@ app.get('/api/query', async function (req, res) {
         console.log(`buyerId: ${event.buyerId}`);
         console.log(`Block Number: ${blockNumber} Transaction ID: ${transactionId} Status: ${status}`);
         console.log('************************ End Trade Event ************************************');
-    });
+    }, { filtered: false });
 
 
     // Evaluate the specified transaction.
@@ -170,6 +176,7 @@ app.post('/api/createkey/', async function (req, res) {
         var value4 = req.body.value14;
         var value5 = req.body.value15;
         var value6 = req.body.value16;
+        var value7 = req.body.latitute;
 
 
         // Create a new file system based wallet for managing identities.
@@ -199,7 +206,7 @@ app.post('/api/createkey/', async function (req, res) {
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
         //        await contract.submitTransaction('createCar', 'CAR11', 'Hnda', 'Aord', 'Bla', 'Tom');
-        await contract.submitTransaction('set1', key, value1, value2, value3, value4, value5, value6);
+        await contract.submitTransaction('set1', key, value1, value2, value3, value4, value5, value6, value7);
         console.log('정보 등록에 성공 했습니다.');
 
         // Disconnect from the gateway.
