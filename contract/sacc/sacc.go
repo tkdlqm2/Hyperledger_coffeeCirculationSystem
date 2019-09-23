@@ -18,47 +18,61 @@ import (
 type SimpleAsset struct {
 }
 
-type Data struct {
-	Key     string `json:"key"`      // 상품 ID
-	Value11 string `json:"value11"`  // 날짜 등록
-	Value12 string `json:"value12"`  // 품종
-	Value13 string `json:"value13"`  // 산지
-	Value14 string `json:"value14"`  // 수확일
-	Value15 string `json:"value15"`  // 수량
-	Value16 string `json:"value16"`  // 생두 등급
-	Value18 string `json:"latitute"` // 생두 등급
+// 관리자 회원 정보 속성
+type profile struct {
+	ID         string `json:"key"`
+	Name       string `json:"v100"`
+	Number     string `json:"101"`
+	Address    string `json:"102"`
+	Store_name string `json:"103"`
+	Job        string `json:"104"`
+}
 
-	Value177 string `json:"value17"` // 날짜 등록
+type Data struct {
+	Key      string `json:"key"` // 상품 ID
+	Value11  string `json:"v11"` // 날짜 등록
+	Value12  string `json:"v12"` // 품종
+	Value13  string `json:"v13"` // 산지
+	Value14  string `json:"v14"` // 수확일
+	Value15  string `json:"v15"` // 수량
+	Value16  string `json:"v16"` // 생두 등급
+	Value18  string `json:"v17"` // 생두 등급
+	Value100 string `json:"v18"` // 목적지 등록
+
+	Value177 string `json:"v19"` // 날짜 등록
 	// 보관할 주소 추가.
 	//////////////////////////////////////////////////////////////////////////////// 수입업자
-	Value19 string `json:"value19"` // 날짜 등록
-	Value20 string `json:"value20"` // 온도
-	Value21 string `json:"value21"` // 습도
+	Value19 string `json:"v20"` // 날짜 등록
+	Value20 string `json:"v21"` // 온도
+	Value21 string `json:"v22"` // 습도
 
-	Value222 string `json:"value22"` // 날짜 등록
+	Value222 string `json:"v23"` // 날짜 등록
+	Value101 string `json:"v24"` // 날짜 등록 (정기배송센터)
+
+	Value23 string `json:"v25"` //
+
 	// 출발할 주소 추가 ex) 땡떙 커피 1호점, 2호점 등
 	//////////////////////////////////////////////////////////////////////////////// 창고관리자
-	Value23 string `json:"value24"` // 날짜 등록
-	Value24 string `json:"value28"` // (로스팅)시간
-	Value25 string `json:"value29"` // (로스팅)로스팅 방법
-	Value26 string `json:"value38"` // 상품 출발 날짜 등록
+
+	Value25 string `json:"v26"` // (로스팅)로스팅 시간
+	Value26 string `json:"v27"` //로스팅 단계 등록
+
+	Value201 string `json:"v28"` //ㅇ
+	Value202 string `json:"v29"` //ㅇ
+	Value203 string `json:"v30"` // ㅇ
+	Value204 string `json:"v31"` // ㅇ
+	Value205 string `json:"v32"` // ㅇ
+	Value206 string `json:"v33"` // ㅇ
+	Value207 string `json:"v34"` // ㅇ
+	Value208 string `json:"v35"` // ㅇ
+
+	Value40  string `json:"v36"` // 상품 출발 날짜 등록
+	Value102 string `json:"v37"` // 날짜 등록 (정기배송센터)
 	//////////////////////////////////////////////////////////////////////////////// 카페 관리자
 
-	Value27 string `json:"value40"` // 날짜 등록 (정기배송센터)
-	Value28 string `json:"value42"` // 날짜 등록 (정기배송센터 상품 패키징.)
-	Value29 string `json:"value44"` // 날짜 등록 (정기배송센터)
-
-	Value100 string `json:"destination1"` // 날짜 등록 (정기배송센터)
-	Value101 string `json:"destination2"` // 날짜 등록 (정기배송센터)
-	Value102 string `json:"destination3"` // 날짜 등록 (정기배송센터)
-	Value201 string `json:"fragrance"`    //ㅇ
-	Value202 string `json:"balance"`      //ㅇ
-	Value203 string `json:"bitterness"`   // ㅇ
-	Value204 string `json:"sweetess"`     // ㅇ
-	Value205 string `json:"aftertaste"`   // ㅇ
-	Value206 string `json:"body"`         // ㅇ
-	Value207 string `json:"acidity"`      // ㅇ
-	Value208 string `json:"aroma"`        // ㅇ
+	Value27 string `json:"v38"` // 날짜 등록 (정기배송센터)
+	Value28 string `json:"v39"` // 날짜 등록 (정기배송센터 상품 패키징.)
+	Value29 string `json:"v40"` // 날짜 등록 (정기배송센터)
 }
 
 // Init is called during chaincode instantiation to initialize any
@@ -98,6 +112,10 @@ func (t *SimpleAsset) Invoke(stub shim.ChaincodeStubInterface) peer.Response {
 		result, err = set_time1(stub, args)
 	} else if fn == "set_time2" {
 		result, err = set_time2(stub, args)
+	} else if fn == "enroll_user" {
+		result, err = enroll_user(stub, args)
+	} else if fn == "update_user_Info" {
+		result, err = update_user_Info(stub, args)
 	} else if fn == "get" {
 		result, err = get(stub, args)
 	} else if fn == "getAllKeys" {
@@ -112,6 +130,54 @@ func (t *SimpleAsset) Invoke(stub shim.ChaincodeStubInterface) peer.Response {
 
 	// Return the result as success payload
 	return shim.Success([]byte(result))
+}
+
+// ID         string `json:"key"`
+// Name       string `json:"v100"`
+// Number     string `json:"101"`
+// Address    string `json:"102"`
+// Store_name string `json:"103"`
+// Job        string `json:"104"`
+
+// 회원정보 등록
+func enroll_user(stub shim.ChaincodeStubInterface, args []string) (string, error) {
+	if len(args) != 6 {
+		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
+	}
+
+	// JSON  변환
+	var profile = profile{ID: args[0], Name: args[1], Number: args[2], Address: args[3], Store_name: args[4], Job: args[5]}
+	dataAsBytes, _ := json.Marshal(profile)
+
+	err := stub.PutState(args[0], dataAsBytes)
+	if err != nil {
+		return "", fmt.Errorf("Failed to set asset: %s", args[0])
+	}
+	return string(dataAsBytes), nil
+}
+
+// 회원 정보 수정
+func update_user_Info(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
+
+	if len(args) != 7 {
+		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
+	}
+
+	InfoAsBytes, _ := APIstub.GetState(args[0])
+	Profile := profile{}
+
+	json.Unmarshal(InfoAsBytes, &Profile)
+	Profile.ID = args[1]
+	Profile.Name = args[2]
+	Profile.Number = args[3]
+	Profile.Address = args[4]
+	Profile.Store_name = args[5]
+	Profile.Job = args[6]
+
+	InfoAsBytes, _ = json.Marshal(Profile)
+	APIstub.PutState(args[0], InfoAsBytes)
+
+	return string(InfoAsBytes), nil
 }
 
 // Set stores the asset (both key and value) on the ledger. If the key exists,
@@ -201,17 +267,17 @@ func set3(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 	data := Data{}
 
 	json.Unmarshal(InfoAsBytes, &data)
-	data.Value28 = args[1]
-	data.Value29 = args[2]
+	data.Value25 = args[1]
+	data.Value26 = args[2]
 
-	data.Value201 = args[1]
-	data.Value202 = args[2]
-	data.Value203 = args[3]
-	data.Value204 = args[4]
-	data.Value205 = args[5]
-	data.Value206 = args[6]
-	data.Value207 = args[7]
-	data.Value208 = args[8]
+	data.Value201 = args[3]
+	data.Value202 = args[4]
+	data.Value203 = args[5]
+	data.Value204 = args[6]
+	data.Value205 = args[7]
+	data.Value206 = args[8]
+	data.Value207 = args[9]
+	data.Value208 = args[10]
 
 	InfoAsBytes, _ = json.Marshal(data)
 	APIstub.PutState(args[0], InfoAsBytes)
@@ -229,7 +295,7 @@ func set_time3(APIstub shim.ChaincodeStubInterface, args []string) (string, erro
 	data := Data{}
 
 	json.Unmarshal(InfoAsBytes, &data)
-	data.Value26 = args[1]
+	data.Value40 = args[1]
 	data.Value102 = args[2]
 	InfoAsBytes, _ = json.Marshal(data)
 	APIstub.PutState(args[0], InfoAsBytes)
@@ -247,7 +313,7 @@ func set_arr_time(APIstub shim.ChaincodeStubInterface, args []string) (string, e
 	data := Data{}
 
 	json.Unmarshal(InfoAsBytes, &data)
-	data.Value28 = args[1]
+	data.Value23 = args[1]
 
 	InfoAsBytes, _ = json.Marshal(data)
 	APIstub.PutState(args[0], InfoAsBytes)

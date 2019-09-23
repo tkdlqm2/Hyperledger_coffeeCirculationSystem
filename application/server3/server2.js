@@ -11,12 +11,18 @@ const HOST = '0.0.0.0';
 const { FileSystemWallet, Gateway } = require('fabric-network');
 const fs = require('fs');
 const path = require('path');
-const ccpPath = path.resolve(__dirname, '..', 'network', 'connection2.json');
+const ccpPath = path.resolve(__dirname, '..', '..', 'network', 'connection2.json');
 const ccpJSON = fs.readFileSync(ccpPath, 'utf8');
 const ccp = JSON.parse(ccpJSON);
 
+pp.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.all('/*', function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+});
 // Index page
 app.get('/', function (req, res) {
     fs.readFile('./index3.html', function (error, data) {
@@ -30,7 +36,7 @@ app.get('/api/query', async function (req, res) {
     // create the key value store as defined in the fabric-client/config/default.json 'key-value-store' setting
 
     // Create a new file system based wallet for managing identities.
-    const walletPath = path.join(process.cwd(), 'wallet');
+    const walletPath = path.join(process.cwd(), '..', 'wallet');
     const wallet = new FileSystemWallet(walletPath);
     console.log(`Wallet path: ${walletPath}`);
 
@@ -78,7 +84,7 @@ app.get('/api/querykey/:id', async function (req, res) {
         console.log(key);
 
         // Create a new file system based wallet for managing identities.
-        const walletPath = path.join(process.cwd(), 'wallet');
+        const walletPath = path.join(process.cwd(), '..', 'wallet');
         const wallet = new FileSystemWallet(walletPath);
         console.log(`Wallet path: ${walletPath}`);
 
@@ -130,7 +136,7 @@ app.post('/api/createkey/', async function (req, res) {
 
 
         // Create a new file system based wallet for managing identities.
-        const walletPath = path.join(process.cwd(), 'wallet');
+        const walletPath = path.join(process.cwd(), '..', 'wallet');
         const wallet = new FileSystemWallet(walletPath);
         console.log(`Wallet path: ${walletPath}`);
 
@@ -190,7 +196,7 @@ app.post('/api/createkey2/', async function (req, res) {
         var destination2 = req.body.destination2;
 
         // Create a new file system based wallet for managing identities.
-        const walletPath = path.join(process.cwd(), 'wallet');
+        const walletPath = path.join(process.cwd(), '..', 'wallet');
         const wallet = new FileSystemWallet(walletPath);
         console.log(`Wallet path: ${walletPath}`);
 
