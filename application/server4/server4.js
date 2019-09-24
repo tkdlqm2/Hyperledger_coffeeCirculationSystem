@@ -23,7 +23,9 @@ app.all('/*', function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     next();
 });
-// Index page
+/////////////////////////////////////////////////////////////////////////////////////
+////////////////////// 모든 원두 이력 조회
+/////////////////////////////////////////////////////////////////////////////////////
 app.get('/', function (req, res) {
     fs.readFile('./index4.html', function (error, data) {
         res.send(data.toString());
@@ -68,16 +70,18 @@ app.get('/api/query', async function (req, res) {
     res.status(200).json(obj);
 });
 
+/////////////////////////////////////////////////////////////////////////////////////
+////////////////////// 원두 이력 조회
+/////////////////////////////////////////////////////////////////////////////////////
 app.get('/api/querykey/', function (req, res) {
     fs.readFile('./querykey.html', function (error, data) {
         res.send(data.toString());
     });
 });
 
-// Query car handle
-// localhost:8080/api/querycar?carno=CAR5
+
 app.get('/api/querykey/:id', async function (req, res) {
-    // create the key value store as defined in the fabric-client/config/default.json 'key-value-store' setting
+
     try {
 
         var key = req.params.id;
@@ -120,13 +124,15 @@ app.get('/api/querykey/:id', async function (req, res) {
     }
 });
 
-// Create car page
+/////////////////////////////////////////////////////////////////////////////////////
+////////////////////// 패키징 업체 ) 상품 도착 날짜 등록
+/////////////////////////////////////////////////////////////////////////////////////
 app.get('/api/createkey2', function (req, res) {
     fs.readFile('./en_info4.html', function (error, data) {
         res.send(data.toString());
     });
 });
-// Create car handle
+
 app.post('/api/createkey2/', async function (req, res) {
     try {
         var key = req.body.key;
@@ -154,11 +160,17 @@ app.post('/api/createkey2/', async function (req, res) {
 
         // Get the contract from the network.
         const contract = network.getContract('sacc');
-
-        // Submit the specified transaction.
-        // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
-        // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
-        //        await contract.submitTransaction('createCar', 'CAR11', 'Hnda', 'Aord', 'Bla', 'Tom');
+        const listener = await contract.addContractListener('pack_1', 'set4', (err, event, blockNumber, transactionId, status) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            console.log("------패키징가게---------")
+            console.log("***** 상품도착날짜 등록 *****")
+            console.log("도착 날짜 시간 : ", value40)
+            console.log(`Block Number: ${blockNumber} Transaction ID: ${transactionId} Status: ${status}`);
+            console.log("--------------------")
+        })
         await contract.submitTransaction('set4', key, value40);
         console.log('정보 등록에 성공 했습니다.');
 
@@ -173,6 +185,11 @@ app.post('/api/createkey2/', async function (req, res) {
     }
 
 });
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+////////////////////// 패키징 업체 ) 상품 패키징 날짜 등록
+/////////////////////////////////////////////////////////////////////////////////////
 
 app.get('/api/createkey3', function (req, res) {
     fs.readFile('./en_info_data_c.html', function (error, data) {
@@ -206,11 +223,17 @@ app.post('/api/createkey3/', async function (req, res) {
 
         // Get the contract from the network.
         const contract = network.getContract('sacc');
-
-        // Submit the specified transaction.
-        // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
-        // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
-        //        await contract.submitTransaction('createCar', 'CAR11', 'Hnda', 'Aord', 'Bla', 'Tom');
+        const listener = await contract.addContractListener('pack_2', 'set_time4', (err, event, blockNumber, transactionId, status) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            console.log("------패키징가게---------")
+            console.log("***** 패키징 시간 등록 *****")
+            console.log("패키징 시간 : ", value42)
+            console.log(`Block Number: ${blockNumber} Transaction ID: ${transactionId} Status: ${status}`);
+            console.log("--------------------")
+        })
         await contract.submitTransaction('set_time4', key, value42);
         console.log('정보 등록에 성공 했습니다.');
 
@@ -226,7 +249,9 @@ app.post('/api/createkey3/', async function (req, res) {
 
 });
 
-// Create car page
+/////////////////////////////////////////////////////////////////////////////////////
+////////////////////// 패키징 업체 ) 상품 출고 날짜 등록
+/////////////////////////////////////////////////////////////////////////////////////
 app.get('/api/createkey4', function (req, res) {
     fs.readFile('./en_info_data_d.html', function (error, data) {
         res.send(data.toString());
@@ -259,11 +284,17 @@ app.post('/api/createkey4/', async function (req, res) {
 
         // Get the contract from the network.
         const contract = network.getContract('sacc');
-
-        // Submit the specified transaction.
-        // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
-        // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
-        //        await contract.submitTransaction('createCar', 'CAR11', 'Hnda', 'Aord', 'Bla', 'Tom');
+        const listener = await contract.addContractListener('pack_3', 'set_time5', (err, event, blockNumber, transactionId, status) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            console.log("------패키징가게---------")
+            console.log("***** 패키징 시간 등록 *****")
+            console.log("패키징 시간 : ", value44)
+            console.log(`Block Number: ${blockNumber} Transaction ID: ${transactionId} Status: ${status}`);
+            console.log("--------------------")
+        })
         await contract.submitTransaction('set_time5', key, value44);
         console.log('정보 등록에 성공 했습니다.');
 

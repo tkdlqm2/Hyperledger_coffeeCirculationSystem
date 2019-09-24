@@ -23,7 +23,10 @@ app.all('/*', function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     next();
 });
-// Index page
+
+/////////////////////////////////////////////////////////////////////////////////////
+////////////////////// 창고관리자) 모든 원두 이력 조회
+/////////////////////////////////////////////////////////////////////////////////////
 app.get('/', function (req, res) {
     fs.readFile('./index3.html', function (error, data) {
         res.send(data.toString());
@@ -31,7 +34,7 @@ app.get('/', function (req, res) {
     });
 });
 
-// Qeury all cars page
+
 app.get('/api/query', async function (req, res) {
     // create the key value store as defined in the fabric-client/config/default.json 'key-value-store' setting
 
@@ -68,14 +71,17 @@ app.get('/api/query', async function (req, res) {
     res.status(200).json(obj);
 });
 
+/////////////////////////////////////////////////////////////////////////////////////
+////////////////////// 원두 이력 조회
+/////////////////////////////////////////////////////////////////////////////////////
 app.get('/api/querykey/', function (req, res) {
     fs.readFile('./querykey.html', function (error, data) {
         res.send(data.toString());
     });
 });
 
-// Query car handle
-// localhost:8080/api/querycar?carno=CAR5
+
+
 app.get('/api/querykey/:id', async function (req, res) {
     // create the key value store as defined in the fabric-client/config/default.json 'key-value-store' setting
     try {
@@ -120,7 +126,10 @@ app.get('/api/querykey/:id', async function (req, res) {
     }
 });
 
-// Create car page
+/////////////////////////////////////////////////////////////////////////////////////
+////////////////////// 창고관리) 상품 이력 등록
+/////////////////////////////////////////////////////////////////////////////////////
+
 app.get('/api/createkey', function (req, res) {
     fs.readFile('./en_info2.html', function (error, data) {
         res.send(data.toString());
@@ -131,8 +140,8 @@ app.post('/api/createkey/', async function (req, res) {
     try {
         var key = req.body.key;
         var value19 = req.body.value19;
-        var value20 = req.body.value20;
-        var value21 = req.body.value21;
+        var value20 = req.body.value20.toString();
+        var value21 = req.body.value21.toString();
 
 
         // Create a new file system based wallet for managing identities.
@@ -156,11 +165,19 @@ app.post('/api/createkey/', async function (req, res) {
 
         // Get the contract from the network.
         const contract = network.getContract('sacc');
-
-        // Submit the specified transaction.
-        // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
-        // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
-        //        await contract.submitTransaction('createCar', 'CAR11', 'Hnda', 'Aord', 'Bla', 'Tom');
+        const listener = await contract.addContractListener('container_1', 'set2', (err, event, blockNumber, transactionId, status) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            console.log("------창고관리---------")
+            console.log("***** 원두이력 등록 *****")
+            console.log("상품 도착 날짜 : ", value19)
+            console.log("보관 온도 : ", value20)
+            console.log("보관 습도 : ", value21)
+            console.log(`Block Number: ${blockNumber} Transaction ID: ${transactionId} Status: ${status}`);
+            console.log("--------------------")
+        })
         await contract.submitTransaction('set2', key, value19, value20, value21);
         console.log('정보 등록에 성공 했습니다.');
 
@@ -175,20 +192,17 @@ app.post('/api/createkey/', async function (req, res) {
     }
 
 });
+/////////////////////////////////////////////////////////////////////////////////////
+////////////////////// 창고관리) 상품 출고 날짜 등록
+/////////////////////////////////////////////////////////////////////////////////////
 
 app.get('/api/createkey2', function (req, res) {
     fs.readFile('./en_info_data2.html', function (error, data) {
         res.send(data.toString());
     });
 });
-// Create car handle
-
-// Value19 string `json:"value19"` // 날짜 등록
-// 	Value20 string `json:"value20"` // 온도
-// 	Value21 string `json:"value21"` // 습도
-
-// 	Value22 string `json:"value22"` // 날짜 등록
-// 	Value23 string `json:"value23"` // 상품 출발 true or false
+//
+//
 app.post('/api/createkey2/', async function (req, res) {
     try {
         var key = req.body.key;
@@ -216,11 +230,18 @@ app.post('/api/createkey2/', async function (req, res) {
 
         // Get the contract from the network.
         const contract = network.getContract('sacc');
-
-        // Submit the specified transaction.
-        // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
-        // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
-        //        await contract.submitTransaction('createCar', 'CAR11', 'Hnda', 'Aord', 'Bla', 'Tom');
+        const listener = await contract.addContractListener('container_2', 'set_time2', (err, event, blockNumber, transactionId, status) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            console.log("------창고관리---------")
+            console.log("***** 출고날짜 등록 *****")
+            console.log("상품 출고 날짜 : ", value22)
+            console.log("배송지 주소 : ", destination2)
+            console.log(`Block Number: ${blockNumber} Transaction ID: ${transactionId} Status: ${status}`);
+            console.log("--------------------")
+        })
         await contract.submitTransaction('set_time2', key, value22, destination2);
         console.log('정보 등록에 성공 했습니다.');
 
@@ -235,6 +256,8 @@ app.post('/api/createkey2/', async function (req, res) {
     }
 
 });
+
+
 // server start
 app.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}`);

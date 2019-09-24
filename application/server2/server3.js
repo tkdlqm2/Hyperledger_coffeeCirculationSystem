@@ -23,7 +23,9 @@ app.all('/*', function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     next();
 });
-// Index page
+/////////////////////////////////////////////////////////////////////////////////////
+////////////////////// 모든 원두 이력 조회
+/////////////////////////////////////////////////////////////////////////////////////
 app.get('/', function (req, res) {
     fs.readFile('./index2.html', function (error, data) {
         res.send(data.toString());
@@ -31,7 +33,7 @@ app.get('/', function (req, res) {
     });
 });
 
-// Qeury all cars page
+
 app.get('/api/query', async function (req, res) {
     // create the key value store as defined in the fabric-client/config/default.json 'key-value-store' setting
 
@@ -67,15 +69,16 @@ app.get('/api/query', async function (req, res) {
     var obj = JSON.parse(result);
     res.status(200).json(obj);
 });
-
+/////////////////////////////////////////////////////////////////////////////////////
+////////////////////// 원두 이력 조회
+/////////////////////////////////////////////////////////////////////////////////////
 app.get('/api/querykey/', function (req, res) {
     fs.readFile('./querykey.html', function (error, data) {
         res.send(data.toString());
     });
 });
 
-// Query car handle
-// localhost:8080/api/querycar?carno=CAR5
+
 app.get('/api/querykey/:id', async function (req, res) {
     // create the key value store as defined in the fabric-client/config/default.json 'key-value-store' setting
     try {
@@ -120,28 +123,30 @@ app.get('/api/querykey/:id', async function (req, res) {
     }
 });
 
-// Create car page
+/////////////////////////////////////////////////////////////////////////////////////
+////////////////////// 원두 로스팅 등록
+/////////////////////////////////////////////////////////////////////////////////////
 app.get('/api/createkey', function (req, res) {
     fs.readFile('./en_info3.html', function (error, data) {
         res.send(data.toString());
     });
 });
-// Create car handle
+
 app.post('/api/createkey/', async function (req, res) {
     try {
         var key = req.body.key;
 
-        var value28 = req.body.value28;
+        var value28 = req.body.value28.toString();
         var value29 = req.body.value29;
 
-        var fragrance = req.body.fragrance;
-        var balance = req.body.balance;
-        var bitterness = req.body.bitterness;
-        var sweetess = req.body.sweetess;
-        var aftertaste = req.body.aftertaste;
-        var body = req.body.body;
-        var acidity = req.body.acidity;
-        var aroma = req.body.aroma;
+        var fragrance = req.body.fragrance.toString();
+        var balance = req.body.balance.toString();
+        var bitterness = req.body.bitterness.toString();
+        var sweetess = req.body.sweetess.toString();
+        var aftertaste = req.body.aftertaste.toString();
+        var body = req.body.body.toString();
+        var acidity = req.body.acidity.toString();
+        var aroma = req.body.aroma.toString();
 
         // Create a new file system based wallet for managing identities.
         const walletPath = path.join(process.cwd(), '..', 'wallet');
@@ -164,6 +169,26 @@ app.post('/api/createkey/', async function (req, res) {
 
         // Get the contract from the network.
         const contract = network.getContract('sacc');
+        const listener = await contract.addContractListener('Roasting_1', 'set3', (err, event, blockNumber, transactionId, status) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            console.log("------커피가게---------")
+            console.log("***** 로스팅 등록 *****")
+            console.log("로스팅 시간 : ", value28)
+            console.log("로스팅 단계 : ", value29)
+            console.log("플레버 향 : ", fragrance)
+            console.log("플레버 비율 : ", balance)
+            console.log("플레버 신랄 : ", bitterness)
+            console.log("플레버 달콤 : ", sweetess)
+            console.log("플레버 뒷맛 : ", aftertaste)
+            console.log("플레버 무게감 : ", body)
+            console.log("플레버 신맛 : ", acidity)
+            console.log("플레버 아로마 : ", aroma)
+            console.log(`Block Number: ${blockNumber} Transaction ID: ${transactionId} Status: ${status}`);
+            console.log("--------------------")
+        })
 
         // Submit the specified transaction.
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
@@ -184,12 +209,15 @@ app.post('/api/createkey/', async function (req, res) {
 
 });
 
+/////////////////////////////////////////////////////////////////////////////////////
+////////////////////// 원두 도착 날짜 등록
+/////////////////////////////////////////////////////////////////////////////////////
 app.get('/api/createkey3', function (req, res) {
     fs.readFile('./en_info_data_b3.html', function (error, data) {
         res.send(data.toString());
     });
 });
-// Create car handle
+
 app.post('/api/createkey3/', async function (req, res) {
     try {
         var key = req.body.key;
@@ -216,6 +244,17 @@ app.post('/api/createkey3/', async function (req, res) {
 
         // Get the contract from the network.
         const contract = network.getContract('sacc');
+        const listener = await contract.addContractListener('Roasting_2', 'set_arr_time', (err, event, blockNumber, transactionId, status) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            console.log("------커피가게---------")
+            console.log("***** 도착날짜 등록 *****")
+            console.log("도착 날짜 시간 : ", value24)
+            console.log(`Block Number: ${blockNumber} Transaction ID: ${transactionId} Status: ${status}`);
+            console.log("--------------------")
+        })
 
         // Submit the specified transaction.
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
@@ -235,6 +274,10 @@ app.post('/api/createkey3/', async function (req, res) {
     }
 
 });
+
+/////////////////////////////////////////////////////////////////////////////////////
+////////////////////// 카페) 상품 출고 날짜 등록
+/////////////////////////////////////////////////////////////////////////////////////
 
 app.get('/api/createkey2', function (req, res) {
     fs.readFile('./en_info_data3.html', function (error, data) {
@@ -269,6 +312,18 @@ app.post('/api/createkey2/', async function (req, res) {
 
         // Get the contract from the network.
         const contract = network.getContract('sacc');
+        const listener = await contract.addContractListener('Roasting_3', 'set_time3', (err, event, blockNumber, transactionId, status) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            console.log("------커피가게---------")
+            console.log("***** 상품출고 등록 *****")
+            console.log("상품 출고 날짜 : ", value38)
+            console.log("배송지 : ", destination3)
+            console.log(`Block Number: ${blockNumber} Transaction ID: ${transactionId} Status: ${status}`);
+            console.log("--------------------")
+        })
 
         // Submit the specified transaction.
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
