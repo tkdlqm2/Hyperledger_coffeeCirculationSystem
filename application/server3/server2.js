@@ -15,7 +15,7 @@ const ccpPath = path.resolve(__dirname, '..', '..', 'network', 'connection2.json
 const ccpJSON = fs.readFileSync(ccpPath, 'utf8');
 const ccp = JSON.parse(ccpJSON);
 
-pp.use(bodyParser.json());
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.all('/*', function (req, res, next) {
@@ -170,13 +170,10 @@ app.post('/api/createkey/', async function (req, res) {
                 console.error(err);
                 return;
             }
-            console.log("------창고관리---------")
-            console.log("***** 원두이력 등록 *****")
-            console.log("상품 도착 날짜 : ", value19)
-            console.log("보관 온도 : ", value20)
-            console.log("보관 습도 : ", value21)
-            console.log(`Block Number: ${blockNumber} Transaction ID: ${transactionId} Status: ${status}`);
-            console.log("--------------------")
+            console.log("-----------창고관리--------------")
+            console.log("----     원두이력 등록        ----")
+            console.log(`Block Number: ${blockNumber}\n Transaction ID: ${transactionId}\n Status: ${status}`);
+            console.log("-------------------------------")
         })
         await contract.submitTransaction('set2', key, value19, value20, value21);
         console.log('정보 등록에 성공 했습니다.');
@@ -235,12 +232,10 @@ app.post('/api/createkey2/', async function (req, res) {
                 console.error(err);
                 return;
             }
-            console.log("------창고관리---------")
-            console.log("***** 출고날짜 등록 *****")
-            console.log("상품 출고 날짜 : ", value22)
-            console.log("배송지 주소 : ", destination2)
-            console.log(`Block Number: ${blockNumber} Transaction ID: ${transactionId} Status: ${status}`);
-            console.log("--------------------")
+            console.log("----------창고관리-------------")
+            console.log("----     출고날짜 등록      ----")
+            console.log(`Block Number: ${blockNumber}\n Transaction ID: ${transactionId}\n Status: ${status}`);
+            console.log("-------------------------------")
         })
         await contract.submitTransaction('set_time2', key, value22, destination2);
         console.log('정보 등록에 성공 했습니다.');

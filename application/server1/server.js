@@ -169,22 +169,18 @@ app.post('/api/createkey/', async function (req, res) {
 
         // Get the contract from the network.
         const contract = network.getContract('sacc');
-        const listener = await contract.addContractListener('my-contract-listener', 'set1', (err, event, blockNumber, transactionId, status) => {
+
+        const listener = await contract.addContractListener('importer_1', 'set1', (err, event, blockNumber, transactionId, status) => {
             if (err) {
                 console.error(err);
                 return;
             }
-            console.log("------유통업체---------")
-            consolo.log("***** 원두 이력 등록*****")
+
+            console.log("------유통업체 ( 원두 이력 등록 ) ---------")
             console.log("날짜 등록 : ", value1)
-            console.log("품종 : ", value2)
-            console.log("산지 : ", value3)
-            console.log("수확일 : ", value4)
-            console.log("수량 : ", value5)
-            console.log("생두 등급 : ", value6)
-            console.log("재배 고도 : ", value7)
-            console.log("--------------------")
-            console.log(`Block Number: ${blockNumber} Transaction ID: ${transactionId} Status: ${status}`);
+            console.log(`Block Number: ${blockNumber} \nTransaction ID: ${transactionId} \nStatus: ${status}`);
+
+            console.log("------------------------------------")
         })
         await contract.submitTransaction('set1', key, value1, value2, value3, value4, value5, value6, value7);
         console.log('정보 등록에 성공 했습니다.');
@@ -241,12 +237,12 @@ app.post('/api/createkey2/', async function (req, res) {
                 console.error(err);
                 return;
             }
-            console.log("------유통업체---------")
-            console.log("***** 출고일 등록 *****")
+            console.log("----------유통업체 (출고 날짜 등록)---------------")
             console.log("날짜 등록 : ", value17)
             console.log("배송지 : ", destination1)
-            console.log("--------------------")
-            console.log(`Block Number: ${blockNumber} Transaction ID: ${transactionId} Status: ${status}`);
+            console.log(`Block Number: ${blockNumber}\n Transaction ID: ${transactionId} \nStatus: ${status}`);
+            console.log("-------------------------------------------")
+
         })
 
 

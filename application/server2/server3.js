@@ -15,7 +15,7 @@ const ccpPath = path.resolve(__dirname, '..', '..', 'network', 'connection2.json
 const ccpJSON = fs.readFileSync(ccpPath, 'utf8');
 const ccp = JSON.parse(ccpJSON);
 
-pp.use(bodyParser.json());
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.all('/*', function (req, res, next) {
@@ -137,7 +137,7 @@ app.post('/api/createkey/', async function (req, res) {
         var key = req.body.key;
 
         var value28 = req.body.value28.toString();
-        var value29 = req.body.value29;
+        var value29 = req.body.value29.toString();
 
         var fragrance = req.body.fragrance.toString();
         var balance = req.body.balance.toString();
@@ -174,20 +174,10 @@ app.post('/api/createkey/', async function (req, res) {
                 console.error(err);
                 return;
             }
-            console.log("------커피가게---------")
-            console.log("***** 로스팅 등록 *****")
-            console.log("로스팅 시간 : ", value28)
-            console.log("로스팅 단계 : ", value29)
-            console.log("플레버 향 : ", fragrance)
-            console.log("플레버 비율 : ", balance)
-            console.log("플레버 신랄 : ", bitterness)
-            console.log("플레버 달콤 : ", sweetess)
-            console.log("플레버 뒷맛 : ", aftertaste)
-            console.log("플레버 무게감 : ", body)
-            console.log("플레버 신맛 : ", acidity)
-            console.log("플레버 아로마 : ", aroma)
-            console.log(`Block Number: ${blockNumber} Transaction ID: ${transactionId} Status: ${status}`);
-            console.log("--------------------")
+            console.log("---------------커피가게---------------")
+            console.log("-             로스팅 등록             -")
+            console.log(`Block Number: ${blockNumber}\n Transaction ID: ${transactionId}\n Status: ${status}`);
+            console.log("-----------------------------------")
         })
 
         // Submit the specified transaction.
@@ -249,11 +239,10 @@ app.post('/api/createkey3/', async function (req, res) {
                 console.error(err);
                 return;
             }
-            console.log("------커피가게---------")
-            console.log("***** 도착날짜 등록 *****")
-            console.log("도착 날짜 시간 : ", value24)
-            console.log(`Block Number: ${blockNumber} Transaction ID: ${transactionId} Status: ${status}`);
-            console.log("--------------------")
+            console.log("----------------커피가게------------------")
+            console.log("-             도착날짜 등록               -")
+            console.log(`Block Number: ${blockNumber}\n Transaction ID: ${transactionId}\n Status: ${status}`);
+            console.log("---------------------------------------")
         })
 
         // Submit the specified transaction.
@@ -317,12 +306,10 @@ app.post('/api/createkey2/', async function (req, res) {
                 console.error(err);
                 return;
             }
-            console.log("------커피가게---------")
-            console.log("***** 상품출고 등록 *****")
-            console.log("상품 출고 날짜 : ", value38)
-            console.log("배송지 : ", destination3)
-            console.log(`Block Number: ${blockNumber} Transaction ID: ${transactionId} Status: ${status}`);
-            console.log("--------------------")
+            console.log("-----------커피가게--------------")
+            console.log("-         상품출고 등록           -")
+            console.log(`Block Number: ${blockNumber}\n Transaction ID: ${transactionId}\n Status: ${status}`);
+            console.log("---------------------------------")
         })
 
         // Submit the specified transaction.

@@ -15,7 +15,7 @@ const ccpPath = path.resolve(__dirname, '..', '..', 'network', 'connection2.json
 const ccpJSON = fs.readFileSync(ccpPath, 'utf8');
 const ccp = JSON.parse(ccpJSON);
 
-pp.use(bodyParser.json());
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.all('/*', function (req, res, next) {
@@ -165,11 +165,10 @@ app.post('/api/createkey2/', async function (req, res) {
                 console.error(err);
                 return;
             }
-            console.log("------패키징가게---------")
-            console.log("***** 상품도착날짜 등록 *****")
-            console.log("도착 날짜 시간 : ", value40)
-            console.log(`Block Number: ${blockNumber} Transaction ID: ${transactionId} Status: ${status}`);
-            console.log("--------------------")
+            console.log("---------패키징가게-----------")
+            console.log("-      상품도착날짜 등록      -")
+            console.log(`Block Number: ${blockNumber}\n Transaction ID: ${transactionId}\n Status: ${status}`);
+            console.log("------------------------------")
         })
         await contract.submitTransaction('set4', key, value40);
         console.log('정보 등록에 성공 했습니다.');
@@ -228,11 +227,10 @@ app.post('/api/createkey3/', async function (req, res) {
                 console.error(err);
                 return;
             }
-            console.log("------패키징가게---------")
-            console.log("***** 패키징 시간 등록 *****")
-            console.log("패키징 시간 : ", value42)
-            console.log(`Block Number: ${blockNumber} Transaction ID: ${transactionId} Status: ${status}`);
-            console.log("--------------------")
+            console.log("---------패키징가게------------")
+            console.log("-      패키징 시간 등록        -")
+            console.log(`Block Number: ${blockNumber}\n Transaction ID: ${transactionId}\n Status: ${status}`);
+            console.log("----------------------------")
         })
         await contract.submitTransaction('set_time4', key, value42);
         console.log('정보 등록에 성공 했습니다.');
@@ -289,11 +287,10 @@ app.post('/api/createkey4/', async function (req, res) {
                 console.error(err);
                 return;
             }
-            console.log("------패키징가게---------")
-            console.log("***** 패키징 시간 등록 *****")
-            console.log("패키징 시간 : ", value44)
-            console.log(`Block Number: ${blockNumber} Transaction ID: ${transactionId} Status: ${status}`);
-            console.log("--------------------")
+            console.log("-----------패키징가게--------------")
+            console.log("-        패키징 시간 등록          -")
+            console.log(`Block Number: ${blockNumber}\n Transaction ID: ${transactionId}\n Status: ${status}`);
+            console.log("--------------------------------")
         })
         await contract.submitTransaction('set_time5', key, value44);
         console.log('정보 등록에 성공 했습니다.');
