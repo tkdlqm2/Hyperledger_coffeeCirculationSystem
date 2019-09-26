@@ -20,10 +20,13 @@
               </b-datepicker>
           </b-field>
 
+          <b-field>
+            <vue-timepicker v-model="form.value22_time"></vue-timepicker>
+          </b-field>
+
           <b-field label="배송지 주소">
-          <b-select placeholder="카페 선택">
+            <b-select placeholder="카페 선택" v-model="form.destination2">
                 <option
-		    v-model="form.destination2"
                     v-for="option in cafe"
                     :value="option.value"
                     :key="option.name">
@@ -44,7 +47,12 @@
 <script>
 import { calendar, coffeeMeta } from '../../../util/constant/constant'
 import StoreService             from '../../../api/store/storeService'
+import moment          from "moment";
+import VueTimepicker   from 'vue2-timepicker/src/vue-timepicker.vue'
 export default {
+  components :{
+    VueTimepicker
+  },
   data () {
     return {
       calendar : calendar.kor,
@@ -52,6 +60,7 @@ export default {
       form : {
         key          : '',
         value22      : new Date(),
+        value22_time : '00:00',
         destination2 : '',
       }
     }
@@ -62,9 +71,13 @@ export default {
     },
 
     registerForm() {
+
+      const _v22_date = moment(this.form.value22).format("YYYY / MM / DD");
+      const _v22time  = this.form.value22_time;
+
       const DTO = {
         key          : this.form.key, 
-        value22      : this.form.value22,
+        value22      : `${_v22_date} - ${_v22time}`,
         destination2 : this.form.destination2,
       }
 

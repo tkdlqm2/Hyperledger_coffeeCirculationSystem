@@ -139,9 +139,9 @@ app.get('/api/createkey', function (req, res) {
 app.post('/api/createkey/', async function (req, res) {
     try {
         var key = req.body.key;
-        var value19 = req.body.value19;
-        var value20 = req.body.value20.toString();
-        var value21 = req.body.value21.toString();
+        var value19 = req.body.value19;  // V20
+        var value20 = req.body.value20.toString(); // V21
+        var value21 = req.body.value21.toString(); // V22
 
 
         // Create a new file system based wallet for managing identities.
@@ -203,8 +203,8 @@ app.get('/api/createkey2', function (req, res) {
 app.post('/api/createkey2/', async function (req, res) {
     try {
         var key = req.body.key;
-        var value22 = req.body.value22;
-        var destination2 = req.body.destination2;
+        var value22 = req.body.value22; // V23
+        var destination2 = req.body.destination2;  // V24
 
         // Create a new file system based wallet for managing identities.
         const walletPath = path.join(process.cwd(), '..', 'wallet');

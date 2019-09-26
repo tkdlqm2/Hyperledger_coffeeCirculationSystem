@@ -201,6 +201,7 @@ func set1(stub shim.ChaincodeStubInterface, args []string) (string, error) {
 	if eventErr != nil {
 		return "", fmt.Errorf("Event Errors")
 	}
+
 	return string(dataAsBytes), nil
 }
 func set_time1(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
@@ -242,7 +243,7 @@ func set2(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 	data.Value21 = args[3]
 	eventPayload := ""
 	payloadAsBytes := []byte(eventPayload)
-	eventErr := APIstub.SetEvent("set_time2", payloadAsBytes)
+	eventErr := APIstub.SetEvent("set2", payloadAsBytes)
 	if eventErr != nil {
 		return "", fmt.Errorf("Event Errors")
 	}
@@ -325,6 +326,12 @@ func set_time3(APIstub shim.ChaincodeStubInterface, args []string) (string, erro
 	json.Unmarshal(InfoAsBytes, &data)
 	data.Value40 = args[1]
 	data.Value102 = args[2]
+	eventPayload := ""
+	payloadAsBytes := []byte(eventPayload)
+	eventErr := APIstub.SetEvent("set_time3", payloadAsBytes)
+	if eventErr != nil {
+		return "", fmt.Errorf("Event Errors")
+	}
 	InfoAsBytes, _ = json.Marshal(data)
 	APIstub.PutState(args[0], InfoAsBytes)
 
