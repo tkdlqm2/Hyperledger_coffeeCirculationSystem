@@ -1,5 +1,4 @@
 export const API = {
-    test    : 'https://jsonplaceholder.typicode.com',
     importer: '/importer-api',  // 'localhost:8080',
     store   : '/store-api'   ,  // 'localhost:8081',
     cafe    : '/cafe-api'    ,  // 'localhost:8082',
