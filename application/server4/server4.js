@@ -160,7 +160,7 @@ app.post('/api/createkey2/', async function (req, res) {
 
         // Get the contract from the network.
         const contract = network.getContract('sacc');
-        const listener = await contract.addContractListener('pack_1', 'set4', (err, event, blockNumber, transactionId, status) => {
+        const listener = await contract.addContractListener('pack_1', 'setarr_timeByService', (err, event, blockNumber, transactionId, status) => {
             if (err) {
                 console.error(err);
                 return;
@@ -170,7 +170,7 @@ app.post('/api/createkey2/', async function (req, res) {
             console.log(`Block Number: ${blockNumber}\n Transaction ID: ${transactionId}\n Status: ${status}`);
             console.log("------------------------------")
         })
-        await contract.submitTransaction('set4', key, value40);
+        await contract.submitTransaction('setarr_timeByService', key, value40);
         console.log('정보 등록에 성공 했습니다.');
 
         // Disconnect from the gateway.
@@ -222,7 +222,7 @@ app.post('/api/createkey3/', async function (req, res) {
 
         // Get the contract from the network.
         const contract = network.getContract('sacc');
-        const listener = await contract.addContractListener('pack_2', 'set_time4', (err, event, blockNumber, transactionId, status) => {
+        const listener = await contract.addContractListener('pack_2', 'set_timeByService', (err, event, blockNumber, transactionId, status) => {
             if (err) {
                 console.error(err);
                 return;
@@ -232,7 +232,7 @@ app.post('/api/createkey3/', async function (req, res) {
             console.log(`Block Number: ${blockNumber}\n Transaction ID: ${transactionId}\n Status: ${status}`);
             console.log("----------------------------")
         })
-        await contract.submitTransaction('set_time4', key, value42);
+        await contract.submitTransaction('set_timeByService', key, value42);
         console.log('정보 등록에 성공 했습니다.');
 
         // Disconnect from the gateway.
@@ -282,17 +282,17 @@ app.post('/api/createkey4/', async function (req, res) {
 
         // Get the contract from the network.
         const contract = network.getContract('sacc');
-        const listener = await contract.addContractListener('pack_3', 'set_time5', (err, event, blockNumber, transactionId, status) => {
+        const listener = await contract.addContractListener('pack_3', 'set_timeByService2', (err, event, blockNumber, transactionId, status) => {
             if (err) {
                 console.error(err);
                 return;
             }
             console.log("-----------패키징가게--------------")
-            console.log("-        패키징 시간 등록          -")
+            console.log("-        패키징 출고시간 등록          -")
             console.log(`Block Number: ${blockNumber}\n Transaction ID: ${transactionId}\n Status: ${status}`);
             console.log("--------------------------------")
         })
-        await contract.submitTransaction('set_time5', key, value44);
+        await contract.submitTransaction('set_timeByService2', key, value44);
         console.log('정보 등록에 성공 했습니다.');
 
         // Disconnect from the gateway.

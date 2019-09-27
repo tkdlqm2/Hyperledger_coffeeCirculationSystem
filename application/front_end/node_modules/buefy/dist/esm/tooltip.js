@@ -1,0 +1,12 @@
+import './chunk-5160dcda.js';
+import { r as registerComponent, u as use } from './chunk-cca88db8.js';
+import { T as Tooltip } from './chunk-a11331e4.js';
+
+var Plugin = {
+  install: function install(Vue) {
+    registerComponent(Vue, Tooltip);
+  }
+};
+use(Plugin);
+
+export default Plugin;

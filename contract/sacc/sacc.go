@@ -14,57 +14,48 @@ import (
 	"github.com/hyperledger/fabric/protos/peer"
 )
 
-// SimpleAsset implements a simple chaincode to manage an asset
+//
 type SimpleAsset struct {
 }
 
-// 관리자 회원 정보 속성
-type profile struct {
-	ID         string `json:"key"`
-	Name       string `json:"v100"`
-	Number     string `json:"101"`
-	Address    string `json:"102"`
-	Store_name string `json:"103"`
-	Job        string `json:"104"`
-}
-
+//
 type Data struct {
 	Key      string `json:"key"` // 상품 ID
-	Value11  string `json:"v11"` // 날짜 등록
-	Value12  string `json:"v12"` // 품종
-	Value13  string `json:"v13"` // 산지
-	Value14  string `json:"v14"` // 수확일
-	Value15  string `json:"v15"` // 수량
-	Value16  string `json:"v16"` // 생두 등급
-	Value18  string `json:"v17"` // 생두 등급
-	Value100 string `json:"v18"` // 목적지 등록
+	Value11  string `json:"v11"` // 유통업체 날짜등록
+	Value12  string `json:"v12"` // 유통업체 품종
+	Value13  string `json:"v13"` // 유통업체 산지
+	Value14  string `json:"v14"` // 유통업체 수확일
+	Value15  string `json:"v15"` // 유통업체 수량
+	Value16  string `json:"v16"` // 유통업체 생두 둥급
+	Value18  string `json:"v17"` // 유통업체 재배 고도
+	Value100 string `json:"v18"` // 유통업체 배송 목적지 등록
 
-	Value177 string `json:"v19"` // 날짜 등록
-	// 보관할 주소 추가.
+	Value177 string `json:"v19"` // 유통업체 출고 날짜 등록
+	//
 	//////////////////////////////////////////////////////////////////////////////// 수입업자
-	Value19 string `json:"v20"` // 날짜 등록
-	Value20 string `json:"v21"` // 온도
-	Value21 string `json:"v22"` // 습도
+	Value19 string `json:"v20"` // 창고관리자 원두 도착 날짜 등록
+	Value20 string `json:"v21"` // 창고관리자 온도
+	Value21 string `json:"v22"` // 창고관리자 습도
 
-	Value222 string `json:"v23"` // 날짜 등록
-	Value101 string `json:"v24"` // 날짜 등록 (정기배송센터)
+	Value222 string `json:"v23"` // 창고관리자 출고 날짜 등록
+	Value101 string `json:"v24"` // 창고관리자 배송지 등록
 
-	Value23 string `json:"v25"` //
+	Value23 string `json:"v25"` // 카페 관리자, 원두 도착 날짜 등록
 
 	// 출발할 주소 추가 ex) 땡떙 커피 1호점, 2호점 등
 	//////////////////////////////////////////////////////////////////////////////// 창고관리자
 
-	Value25 string `json:"v26"` // (로스팅)로스팅 시간
-	Value26 string `json:"v27"` //로스팅 단계 등록
+	Value25 string `json:"v26"` // 카페 관리자 (로스팅)로스팅 시간
+	Value26 string `json:"v27"` // 카페 관리자  로스팅 단계 등록
 
-	Value201 string `json:"v28"` //ㅇ
-	Value202 string `json:"v29"` //ㅇ
-	Value203 string `json:"v30"` // ㅇ
-	Value204 string `json:"v31"` // ㅇ
-	Value205 string `json:"v32"` // ㅇ
-	Value206 string `json:"v33"` // ㅇ
-	Value207 string `json:"v34"` // ㅇ
-	Value208 string `json:"v35"` // ㅇ
+	Value201 string `json:"v28"` // 로스팅 맛1
+	Value202 string `json:"v29"` // 로스팅 맛2
+	Value203 string `json:"v30"` // 로스팅 맛3
+	Value204 string `json:"v31"` // 로스팅 맛4
+	Value205 string `json:"v32"` // 로스팅 맛5
+	Value206 string `json:"v33"` // 로스팅 맛6
+	Value207 string `json:"v34"` // 로스팅 맛7
+	Value208 string `json:"v35"` // 로스팅 맛8
 
 	Value40  string `json:"v36"` // 상품 출발 날짜 등록
 	Value102 string `json:"v37"` // 날짜 등록 (정기배송센터)
@@ -75,47 +66,39 @@ type Data struct {
 	Value29 string `json:"v40"` // 날짜 등록 (정기배송센터)
 }
 
-// Init is called during chaincode instantiation to initialize any
-// data. Note that chaincode upgrade also calls this function to reset
-// or to migrate data.
+//
 func (t *SimpleAsset) Init(stub shim.ChaincodeStubInterface) peer.Response {
 
 	return shim.Success(nil)
 }
 
-// Invoke is called per transaction on the chaincode. Each transaction is
-// either a 'get' or a 'set' on the asset created by Init function. The Set
-// method may create a new asset by specifying a new key-value pair.
+//
 func (t *SimpleAsset) Invoke(stub shim.ChaincodeStubInterface) peer.Response {
 	// Extract the function and args from the transaction proposal
 	fn, args := stub.GetFunctionAndParameters()
 
 	var result string
 	var err error
-	if fn == "set1" {
-		result, err = set1(stub, args)
-	} else if fn == "set2" {
-		result, err = set2(stub, args)
-	} else if fn == "set3" {
-		result, err = set3(stub, args)
-	} else if fn == "set4" {
-		result, err = set4(stub, args)
-	} else if fn == "set_time5" {
-		result, err = set_time5(stub, args)
-	} else if fn == "set_time4" {
-		result, err = set_time4(stub, args)
-	} else if fn == "set_time3" {
-		result, err = set_time3(stub, args)
-	} else if fn == "set_arr_time" {
-		result, err = set_arr_time(stub, args)
-	} else if fn == "set_time1" {
-		result, err = set_time1(stub, args)
-	} else if fn == "set_time2" {
-		result, err = set_time2(stub, args)
-	} else if fn == "enroll_user" {
-		result, err = enroll_user(stub, args)
-	} else if fn == "update_user_Info" {
-		result, err = update_user_Info(stub, args)
+	if fn == "enroll_seedByImporter" {
+		result, err = enroll_seedByImporter(stub, args)
+	} else if fn == "enroll_seedByContainer" {
+		result, err = enroll_seedByContainer(stub, args)
+	} else if fn == "enroll_seedByCoffee" {
+		result, err = enroll_seedByCoffee(stub, args)
+	} else if fn == "setarr_timeByService" {
+		result, err = setarr_timeByService(stub, args)
+	} else if fn == "set_timeByService2" {
+		result, err = set_timeByService2(stub, args)
+	} else if fn == "set_timeByService" {
+		result, err = set_timeByService(stub, args)
+	} else if fn == "set_timeByCoffee" {
+		result, err = set_timeByCoffee(stub, args)
+	} else if fn == "setarr_timeByCoffee" {
+		result, err = setarr_timeByCoffee(stub, args)
+	} else if fn == "set_timeByImporter" {
+		result, err = set_timeByImporter(stub, args)
+	} else if fn == "set_timeByContainer" {
+		result, err = set_timeByContainer(stub, args)
 	} else if fn == "get" {
 		result, err = get(stub, args)
 	} else if fn == "getAllKeys" {
@@ -132,57 +115,8 @@ func (t *SimpleAsset) Invoke(stub shim.ChaincodeStubInterface) peer.Response {
 	return shim.Success([]byte(result))
 }
 
-// ID         string `json:"key"`
-// Name       string `json:"v100"`
-// Number     string `json:"101"`
-// Address    string `json:"102"`
-// Store_name string `json:"103"`
-// Job        string `json:"104"`
-
-// 회원정보 등록
-func enroll_user(stub shim.ChaincodeStubInterface, args []string) (string, error) {
-	if len(args) != 6 {
-		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
-	}
-
-	// JSON  변환
-	var profile = profile{ID: args[0], Name: args[1], Number: args[2], Address: args[3], Store_name: args[4], Job: args[5]}
-	dataAsBytes, _ := json.Marshal(profile)
-
-	err := stub.PutState(args[0], dataAsBytes)
-	if err != nil {
-		return "", fmt.Errorf("Failed to set asset: %s", args[0])
-	}
-	return string(dataAsBytes), nil
-}
-
-// 회원 정보 수정
-func update_user_Info(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
-
-	if len(args) != 7 {
-		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
-	}
-
-	InfoAsBytes, _ := APIstub.GetState(args[0])
-	Profile := profile{}
-
-	json.Unmarshal(InfoAsBytes, &Profile)
-	Profile.ID = args[1]
-	Profile.Name = args[2]
-	Profile.Number = args[3]
-	Profile.Address = args[4]
-	Profile.Store_name = args[5]
-	Profile.Job = args[6]
-
-	InfoAsBytes, _ = json.Marshal(Profile)
-	APIstub.PutState(args[0], InfoAsBytes)
-
-	return string(InfoAsBytes), nil
-}
-
-// Set stores the asset (both key and value) on the ledger. If the key exists,
-// it will override the value with the new one
-func set1(stub shim.ChaincodeStubInterface, args []string) (string, error) {
+// 운송업자 - 원두 등록
+func enroll_seedByImporter(stub shim.ChaincodeStubInterface, args []string) (string, error) {
 	if len(args) != 8 {
 		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
 	}
@@ -195,16 +129,18 @@ func set1(stub shim.ChaincodeStubInterface, args []string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("Failed to set asset: %s", args[0])
 	}
-	eventPayload := "원두 ID : " + args[0] + " 등록 날짜 :  " + args[1] + " 품종 :  " + args[3]
+	eventPayload := ""
 	payloadAsBytes := []byte(eventPayload)
-	eventErr := stub.SetEvent("set1", payloadAsBytes)
+	eventErr := stub.SetEvent("enroll_seedByImporter", payloadAsBytes)
 	if eventErr != nil {
 		return "", fmt.Errorf("Event Errors")
 	}
 
 	return string(dataAsBytes), nil
 }
-func set_time1(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
+
+// 운송업체 - 출발 날짜 등록
+func set_timeByImporter(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 
 	if len(args) != 3 {
 		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
@@ -218,7 +154,7 @@ func set_time1(APIstub shim.ChaincodeStubInterface, args []string) (string, erro
 	data.Value100 = args[2]
 	eventPayload := ""
 	payloadAsBytes := []byte(eventPayload)
-	eventErr := APIstub.SetEvent("set_time1", payloadAsBytes)
+	eventErr := APIstub.SetEvent("set_timeByImporter", payloadAsBytes)
 	if eventErr != nil {
 		return "", fmt.Errorf("Event Errors")
 	}
@@ -228,7 +164,8 @@ func set_time1(APIstub shim.ChaincodeStubInterface, args []string) (string, erro
 	return string(InfoAsBytes), nil
 }
 
-func set2(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
+// 창고관리자 - 원두 등록
+func enroll_seedByContainer(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 
 	if len(args) != 4 {
 		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
@@ -243,7 +180,7 @@ func set2(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 	data.Value21 = args[3]
 	eventPayload := ""
 	payloadAsBytes := []byte(eventPayload)
-	eventErr := APIstub.SetEvent("set2", payloadAsBytes)
+	eventErr := APIstub.SetEvent("enroll_seedByContainer", payloadAsBytes)
 	if eventErr != nil {
 		return "", fmt.Errorf("Event Errors")
 	}
@@ -253,7 +190,8 @@ func set2(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 	return string(InfoAsBytes), nil
 }
 
-func set_time2(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
+// 창고관리자 - 원두 출고 날짜 등록
+func set_timeByContainer(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 
 	if len(args) != 3 {
 		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
@@ -267,7 +205,7 @@ func set_time2(APIstub shim.ChaincodeStubInterface, args []string) (string, erro
 	data.Value101 = args[2]
 	eventPayload := ""
 	payloadAsBytes := []byte(eventPayload)
-	eventErr := APIstub.SetEvent("set_time2", payloadAsBytes)
+	eventErr := APIstub.SetEvent("set_timeByContainer", payloadAsBytes)
 	if eventErr != nil {
 		return "", fmt.Errorf("Event Errors")
 	}
@@ -279,8 +217,7 @@ func set_time2(APIstub shim.ChaincodeStubInterface, args []string) (string, erro
 }
 
 // 로스팅 원두 등록
-
-func set3(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
+func enroll_seedByCoffee(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 
 	if len(args) != 11 {
 		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
@@ -303,7 +240,7 @@ func set3(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 	data.Value208 = args[10]
 	eventPayload := ""
 	payloadAsBytes := []byte(eventPayload)
-	eventErr := APIstub.SetEvent("set3", payloadAsBytes)
+	eventErr := APIstub.SetEvent("enroll_seedByCoffee", payloadAsBytes)
 	if eventErr != nil {
 		return "", fmt.Errorf("Event Errors")
 	}
@@ -314,7 +251,8 @@ func set3(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 	return string(InfoAsBytes), nil
 }
 
-func set_time3(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
+// 로스팅 원두 출고 날짜 등록
+func set_timeByCoffee(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 
 	if len(args) != 3 {
 		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
@@ -328,7 +266,7 @@ func set_time3(APIstub shim.ChaincodeStubInterface, args []string) (string, erro
 	data.Value102 = args[2]
 	eventPayload := ""
 	payloadAsBytes := []byte(eventPayload)
-	eventErr := APIstub.SetEvent("set_time3", payloadAsBytes)
+	eventErr := APIstub.SetEvent("set_timeByCoffee", payloadAsBytes)
 	if eventErr != nil {
 		return "", fmt.Errorf("Event Errors")
 	}
@@ -338,7 +276,8 @@ func set_time3(APIstub shim.ChaincodeStubInterface, args []string) (string, erro
 	return string(InfoAsBytes), nil
 }
 
-func set_arr_time(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
+// 로스팅 원두 도착 날짜 등록
+func setarr_timeByCoffee(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 
 	if len(args) != 2 {
 		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
@@ -351,7 +290,7 @@ func set_arr_time(APIstub shim.ChaincodeStubInterface, args []string) (string, e
 	data.Value23 = args[1]
 	eventPayload := ""
 	payloadAsBytes := []byte(eventPayload)
-	eventErr := APIstub.SetEvent("set_arr_time", payloadAsBytes)
+	eventErr := APIstub.SetEvent("setarr_timeByCoffee", payloadAsBytes)
 	if eventErr != nil {
 		return "", fmt.Errorf("Event Errors")
 	}
@@ -362,7 +301,8 @@ func set_arr_time(APIstub shim.ChaincodeStubInterface, args []string) (string, e
 	return string(InfoAsBytes), nil
 }
 
-func set4(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
+// 정기배송업체 원두 도착 날짜 등록
+func setarr_timeByService(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 
 	if len(args) != 2 {
 		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
@@ -375,7 +315,7 @@ func set4(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 	data.Value27 = args[1]
 	eventPayload := ""
 	payloadAsBytes := []byte(eventPayload)
-	eventErr := APIstub.SetEvent("set4", payloadAsBytes)
+	eventErr := APIstub.SetEvent("setarr_timeByService", payloadAsBytes)
 	if eventErr != nil {
 		return "", fmt.Errorf("Event Errors")
 	}
@@ -385,7 +325,9 @@ func set4(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 
 	return string(InfoAsBytes), nil
 }
-func set_time4(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
+
+// 정기배송업체 패키징 날짜 등록
+func set_timeByService(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 
 	if len(args) != 2 {
 		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
@@ -398,7 +340,7 @@ func set_time4(APIstub shim.ChaincodeStubInterface, args []string) (string, erro
 	data.Value28 = args[1]
 	eventPayload := ""
 	payloadAsBytes := []byte(eventPayload)
-	eventErr := APIstub.SetEvent("set_time4", payloadAsBytes)
+	eventErr := APIstub.SetEvent("set_timeByService", payloadAsBytes)
 	if eventErr != nil {
 		return "", fmt.Errorf("Event Errors")
 	}
@@ -409,7 +351,7 @@ func set_time4(APIstub shim.ChaincodeStubInterface, args []string) (string, erro
 	return string(InfoAsBytes), nil
 }
 
-func set_time5(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
+func set_timeByService2(APIstub shim.ChaincodeStubInterface, args []string) (string, error) {
 
 	if len(args) != 2 {
 		return "", fmt.Errorf("Incorrect arguments. Expecting a key and a value")
@@ -422,7 +364,7 @@ func set_time5(APIstub shim.ChaincodeStubInterface, args []string) (string, erro
 	data.Value29 = args[1]
 	eventPayload := ""
 	payloadAsBytes := []byte(eventPayload)
-	eventErr := APIstub.SetEvent("set_time5", payloadAsBytes)
+	eventErr := APIstub.SetEvent("set_timeByService2", payloadAsBytes)
 	if eventErr != nil {
 		return "", fmt.Errorf("Event Errors")
 	}

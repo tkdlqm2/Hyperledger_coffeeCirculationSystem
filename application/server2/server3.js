@@ -169,7 +169,7 @@ app.post('/api/createkey/', async function (req, res) {
 
         // Get the contract from the network.
         const contract = network.getContract('sacc');
-        const listener = await contract.addContractListener('Roasting_1', 'set3', (err, event, blockNumber, transactionId, status) => {
+        const listener = await contract.addContractListener('Roasting_1', 'enroll_seedByCoffee', (err, event, blockNumber, transactionId, status) => {
             if (err) {
                 console.error(err);
                 return;
@@ -184,7 +184,7 @@ app.post('/api/createkey/', async function (req, res) {
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
         //        await contract.submitTransaction('createCar', 'CAR11', 'Hnda', 'Aord', 'Bla', 'Tom');
-        await contract.submitTransaction('set3', key, value28, value29, fragrance, balance, bitterness, sweetess, aftertaste, body, acidity, aroma);
+        await contract.submitTransaction('enroll_seedByCoffee', key, value28, value29, fragrance, balance, bitterness, sweetess, aftertaste, body, acidity, aroma);
         console.log('정보 등록에 성공 했습니다.');
 
         // Disconnect from the gateway.
@@ -234,7 +234,7 @@ app.post('/api/createkey3/', async function (req, res) {
 
         // Get the contract from the network.
         const contract = network.getContract('sacc');
-        const listener = await contract.addContractListener('Roasting_2', 'set_arr_time', (err, event, blockNumber, transactionId, status) => {
+        const listener = await contract.addContractListener('Roasting_2', 'setarr_timeByCoffee', (err, event, blockNumber, transactionId, status) => {
             if (err) {
                 console.error(err);
                 return;
@@ -245,11 +245,8 @@ app.post('/api/createkey3/', async function (req, res) {
             console.log("---------------------------------------")
         })
 
-        // Submit the specified transaction.
-        // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
-        // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
-        //        await contract.submitTransaction('createCar', 'CAR11', 'Hnda', 'Aord', 'Bla', 'Tom');
-        await contract.submitTransaction('set_arr_time', key, value24);
+        //
+        await contract.submitTransaction('setarr_timeByCoffee', key, value24);
         console.log('정보 등록에 성공 했습니다.');
 
         // Disconnect from the gateway.
@@ -301,7 +298,7 @@ app.post('/api/createkey2/', async function (req, res) {
 
         // Get the contract from the network.
         const contract = network.getContract('sacc');
-        const listener = await contract.addContractListener('Roasting_3', 'set_time3', (err, event, blockNumber, transactionId, status) => {
+        const listener = await contract.addContractListener('Roasting_3', 'set_timeByCoffee', (err, event, blockNumber, transactionId, status) => {
             if (err) {
                 console.error(err);
                 return;
@@ -316,7 +313,7 @@ app.post('/api/createkey2/', async function (req, res) {
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
         //        await contract.submitTransaction('createCar', 'CAR11', 'Hnda', 'Aord', 'Bla', 'Tom');
-        await contract.submitTransaction('set_time3', key, value38, destination3);
+        await contract.submitTransaction('set_timeByCoffee', key, value38, destination3);
         console.log('정보 등록에 성공 했습니다.');
 
         // Disconnect from the gateway.

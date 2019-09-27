@@ -165,7 +165,7 @@ app.post('/api/createkey/', async function (req, res) {
 
         // Get the contract from the network.
         const contract = network.getContract('sacc');
-        const listener = await contract.addContractListener('container_1', 'set2', (err, event, blockNumber, transactionId, status) => {
+        const listener = await contract.addContractListener('container_1', 'enroll_seedByContainer', (err, event, blockNumber, transactionId, status) => {
             if (err) {
                 console.error(err);
                 return;
@@ -175,7 +175,7 @@ app.post('/api/createkey/', async function (req, res) {
             console.log(`Block Number: ${blockNumber}\n Transaction ID: ${transactionId}\n Status: ${status}`);
             console.log("-------------------------------")
         })
-        await contract.submitTransaction('set2', key, value19, value20, value21);
+        await contract.submitTransaction('enroll_seedByContainer', key, value19, value20, value21);
         console.log('정보 등록에 성공 했습니다.');
 
         // Disconnect from the gateway.
@@ -227,7 +227,7 @@ app.post('/api/createkey2/', async function (req, res) {
 
         // Get the contract from the network.
         const contract = network.getContract('sacc');
-        const listener = await contract.addContractListener('container_2', 'set_time2', (err, event, blockNumber, transactionId, status) => {
+        const listener = await contract.addContractListener('container_2', 'set_timeByContainer', (err, event, blockNumber, transactionId, status) => {
             if (err) {
                 console.error(err);
                 return;
@@ -237,7 +237,7 @@ app.post('/api/createkey2/', async function (req, res) {
             console.log(`Block Number: ${blockNumber}\n Transaction ID: ${transactionId}\n Status: ${status}`);
             console.log("-------------------------------")
         })
-        await contract.submitTransaction('set_time2', key, value22, destination2);
+        await contract.submitTransaction('set_timeByContainer', key, value22, destination2);
         console.log('정보 등록에 성공 했습니다.');
 
         // Disconnect from the gateway.

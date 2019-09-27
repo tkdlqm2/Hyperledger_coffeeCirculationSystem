@@ -170,7 +170,7 @@ app.post('/api/createkey/', async function (req, res) {
         // Get the contract from the network.
         const contract = network.getContract('sacc');
 
-        const listener = await contract.addContractListener('importer_1', 'set1', (err, event, blockNumber, transactionId, status) => {
+        const listener = await contract.addContractListener('importer_1', 'enroll_seedByImporter', (err, event, blockNumber, transactionId, status) => {
             if (err) {
                 console.error(err);
                 return;
@@ -182,7 +182,7 @@ app.post('/api/createkey/', async function (req, res) {
 
             console.log("------------------------------------")
         })
-        await contract.submitTransaction('set1', key, value1, value2, value3, value4, value5, value6, value7);
+        await contract.submitTransaction('enroll_seedByImporter', key, value1, value2, value3, value4, value5, value6, value7);
         console.log('정보 등록에 성공 했습니다.');
 
         // Disconnect from the gateway.
@@ -232,7 +232,7 @@ app.post('/api/createkey2/', async function (req, res) {
 
         // Get the contract from the network.
         const contract = network.getContract('sacc');
-        const listener = await contract.addContractListener('importer_2', 'set_time1', (err, event, blockNumber, transactionId, status) => {
+        const listener = await contract.addContractListener('importer_2', 'set_timeByImporter', (err, event, blockNumber, transactionId, status) => {
             if (err) {
                 console.error(err);
                 return;
@@ -245,12 +245,8 @@ app.post('/api/createkey2/', async function (req, res) {
 
         })
 
-
-        // Submit the specified transaction.
-        // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
-        // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
-        //        await contract.submitTransaction('createCar', 'CAR11', 'Hnda', 'Aord', 'Bla', 'Tom');
-        await contract.submitTransaction('set_time1', key, value17, destination1);
+        //
+        await contract.submitTransaction('set_timeByImporter', key, value17, destination1);
         console.log('정보 등록에 성공 했습니다.');
 
         // Disconnect from the gateway.
