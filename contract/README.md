@@ -1,6 +1,10 @@
 # Hyperledger_coffeeCirculationSystem
 Management system about seed info using hyperledger fabric.
 
+# Chaincode Diagram
+![chaincode](././images/chaincode.png)
+
+
 # Function
 There are about 10 functions for management about spec of seeds.<br>
 The codes is made by Go-Lang <br>
