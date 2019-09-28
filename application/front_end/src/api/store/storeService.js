@@ -1,6 +1,5 @@
 import axios   from 'axios'
 import { API } from '../../util/constant/constant';
-//const PATH = API.test;
 const PATH = API.store;
 const service = {
     /**
