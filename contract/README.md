@@ -2,7 +2,7 @@
 Management system about seed info using hyperledger fabric.
 
 # Chaincode Diagram
-![chaincode](././images/chaincode.png)
+![chaincode](../images/chaincode.png)
 
 
 # Function
